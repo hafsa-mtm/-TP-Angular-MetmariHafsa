@@ -20,7 +20,7 @@ Details:
 
 ![image](https://github.com/user-attachments/assets/a685adac-4ffe-42d1-b8e2-9147aeb828aa)
 ![image](https://github.com/user-attachments/assets/40ccb300-b0d3-4d58-8014-0bdce31f074e)
-![image](https://github.com/user-attachments/assets/c0659dd2-1d42-43df-a8b7-dcaa9f0f4f95)
+![image](https://github.com/user-attachments/assets/3fd625ba-f7b1-44ac-93dc-e563b348c396)
 
 
 ## Development server
