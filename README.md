@@ -11,13 +11,12 @@ DCC00017/24
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
 
-#Products:
+Products:
 
 ![image](https://github.com/user-attachments/assets/7b4620c1-2170-4a61-b6ff-c1101e1420f3)
 
 
 Details:
-
 
 ![image](https://github.com/user-attachments/assets/a685adac-4ffe-42d1-b8e2-9147aeb828aa)
 ![image](https://github.com/user-attachments/assets/40ccb300-b0d3-4d58-8014-0bdce31f074e)
