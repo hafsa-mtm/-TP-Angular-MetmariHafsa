@@ -1,0 +1,20 @@
+<ul class="product-grid">
+  <li *ngFor="let product of availableProducts"
+      class="product-card" 
+      [class.low-quantity]="product.quantity < 10">
+    
+      <img class="product-image" [src]="product.imageUrl" alt="{{ product.productTitle }}" />
+      <h3 class="product-title">{{ product.productTitle }}</h3>
+      <button (click)="selectProduct(product)">
+        {{ selectedProduct === product ? 'Cacher' : 'Détails' }}
+      </button>
+      <div *ngIf="selectedProduct" class="product-details-panel">
+      <h2>Product Details</h2>
+      <p>{{ selectedProduct.productTitle }}</p>
+      <p>{{ selectedProduct.description }}</p>
+      <p class="price">Price: {{ selectedProduct.productPrice }}$</p>
+      <p class="quantity">Quantity: {{ selectedProduct.quantity }}</p>
+    </div>
+  </li>
+</ul>
+<app-product-details [product]="selectedProduct"></app-product-details>
