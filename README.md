@@ -3,6 +3,16 @@
 Metmari Hafsa
 DCC00017/24
 
+Product:
+![image](https://github.com/user-attachments/assets/7b4620c1-2170-4a61-b6ff-c1101e1420f3)
+Details:
+![image](https://github.com/user-attachments/assets/a685adac-4ffe-42d1-b8e2-9147aeb828aa)
+![image](https://github.com/user-attachments/assets/40ccb300-b0d3-4d58-8014-0bdce31f074e)
+![image](https://github.com/user-attachments/assets/3faaecad-188d-41e0-bc6a-f3525f833070)
+
+
+
+
 
 # -TP-Angular-MetmariHafsa
 =======
