@@ -27,4 +27,5 @@ export class CatalogComponentComponent {
   
   selectProduct(product: Product) {
     this.productSelected.emit(product);}
+    
 }
