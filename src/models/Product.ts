@@ -1,12 +1,12 @@
 export class Product {
-    constructor(
-        public productId: number,
-        public productTitle: string,
-        public productPrice: number,
-        public quantity: number,
-        public description: string,
-        public imageUrl: string
-      ) {}
+  constructor(
+    public productId: number,
+    public productTitle: string,
+    public productPrice: number,
+    public quantity: number,
+    public description: string,
+    public imageUrl: string
+  ) {}
   
     public printProduct(): string {
       return `Product ID: ${this.productId}, Title: ${this.productTitle}, Price: ${this.productPrice}`;

@@ -1,39 +1,25 @@
-const express = require("express");
+﻿const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require('cors');
 const path = require('path');
 
 const app = express();
 
-// Enhanced CORS configuration with logging
+// Enhanced CORS configuration
 app.use(cors({
   origin: 'http://localhost:4200',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
 
-// Add request logging middleware
-app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  next();
-});
-
 app.use(bodyParser.json());
 
-// Serve static files with error handling
-app.use('/assets', express.static(path.join(__dirname, 'assets'), {
-  fallthrough: false // Don't continue to next middleware if file not found
-}));
+// Serve static files
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 let cart = [];
 
-// Add health check endpoint
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date() });
-});
-
 app.get("/api/products", (req, res) => {
-  console.log('Products endpoint hit');
   const products = [
     {
       productId: 1,
@@ -63,20 +49,17 @@ app.get("/api/products", (req, res) => {
   res.json(products);
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Server error:', err);
-  res.status(500).json({ error: 'Internal server error' });
+app.post("/api/cart", (req, res) => {
+  cart = req.body;
+  res.status(201).json({ message: "Cart updated successfully" });
+});
+
+app.get("/api/cart", (req, res) => {
+  res.json(cart);
 });
 
 const port = 3000;
-app.listen(port, '0.0.0.0', () => { // Listen on all network interfaces
+app.listen(port, () => {
   console.log(`API Server running on http://localhost:${port}`);
-  console.log(`And also on http://127.0.0.1:${port}`);
   console.log(`CORS enabled for http://localhost:4200`);
-});
-
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
 });
