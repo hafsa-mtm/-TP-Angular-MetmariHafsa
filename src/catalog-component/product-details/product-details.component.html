@@ -1,8 +1,13 @@
 <div *ngIf="product">
-    <h3>Détails du produit</h3>
-    <img [src]="product.getImageUrl()" alt="{{ product.getProductTitle() }}" width="100" height="100">
-    <p><strong>ID:</strong> {{ product.getProductId() }}</p>
-    <p><strong>Titre:</strong> {{ product.getProductTitle() }}</p>
-    <p><strong>Prix:</strong> {{ product.getProductPrice() }} DH</p>
-    <p><strong>Quantité:</strong> {{ product.getQuantity() }}</p>
-  </div>
+  <h3>Détails du produit</h3>
+  
+  <img [src]="product.imageUrl" alt="{{ product.productTitle }}" width="100" height="100">
+  
+  <p><strong>ID:</strong> {{ product.productId }}</p>
+  <p><strong>Titre:</strong> {{ product.productTitle }}</p>
+  <p><strong>Prix:</strong> {{ product.productPrice }} DH</p>
+  <p><strong>Description:</strong> {{ product.description }}</p>
+  <p><strong>Quantité:</strong> {{ product.quantity }}</p>
+
+  <button routerLink="/" class="back-button">← Retour au catalogue</button>
+</div>

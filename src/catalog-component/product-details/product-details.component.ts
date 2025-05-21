@@ -1,15 +1,34 @@
-import { Component } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/Product';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';  // <-- import RouterModule here
 
 @Component({
   selector: 'app-product-details',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule],  // <-- add RouterModule here
   templateUrl: './product-details.component.html',
-  styleUrl: './product-details.component.css'
+  styleUrls: ['./product-details.component.css']
 })
-export class ProductDetailsComponent {
-  @Input() product: Product | null = null;
+export class ProductDetailsComponent implements OnInit {
+  product: Product | undefined;
+
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService
+  ) {}
+
+  ngOnInit(): void {
+    const productId = Number(this.route.snapshot.paramMap.get('id'));
+    this.productService.getProductById(productId).subscribe({
+      next: (product) => {
+        this.product = product;
+      },
+      error: (err) => {
+        console.error('Failed to load product details', err);
+      }
+    });
+  }
 }
