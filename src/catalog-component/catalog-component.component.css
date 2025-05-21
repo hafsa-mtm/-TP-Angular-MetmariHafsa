@@ -25,6 +25,15 @@
   position: relative;
   overflow: hidden;
 }
+.filter-bar button {
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+.filter-bar button.active {
+  background-color: #007bff;
+  color: white;
+}
 
 .product-card::before {
   content: '';

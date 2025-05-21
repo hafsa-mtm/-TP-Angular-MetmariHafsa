@@ -13,7 +13,8 @@ const products = [
     productPrice: 1200,
     quantity: 5,
     description: "High-end gaming laptop",
-    imageUrl: "assets/images/laptop.jpg"
+    imageUrl: "assets/images/laptop.jpg",
+    category: "Laptops"
   },
   {
     productId: 2,
@@ -21,7 +22,8 @@ const products = [
     productPrice: 20,
     quantity: 25,
     description: "Wireless mouse",
-    imageUrl: "assets/images/mouse.jpg"
+    imageUrl: "assets/images/mouse.jpg",
+    category: "Mouse" 
   },
   {
     productId: 3,
@@ -29,7 +31,9 @@ const products = [
     productPrice: 300,
     quantity: 2,
     description: "27 inch 4K monitor",
-    imageUrl: "assets/images/tablette.jpg"
+    imageUrl: "assets/images/tablette.jpg",
+    category: "Tablettes" 
+
   }
 ];
 

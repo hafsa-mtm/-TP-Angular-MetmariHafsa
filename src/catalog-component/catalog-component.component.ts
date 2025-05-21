@@ -16,6 +16,11 @@ export class CatalogComponentComponent implements OnInit {
   isLoading = false;
   error: string | null = null;
 
+  // Add these for filtering
+  categories: string[] = ['All', 'Screens', 'Laptops', 'Mouse', 'Tablettes'];
+  selectedCategory: string = 'All';
+  filteredProducts: Product[] = [];
+
   constructor(private productService: ProductService, private router: Router) {}
 
   ngOnInit(): void {
@@ -23,7 +28,8 @@ export class CatalogComponentComponent implements OnInit {
   }
 
   get availableProducts(): Product[] {
-    return this.products.filter(p => p.quantity > 0);
+    // You can now return filteredProducts filtered by quantity
+    return this.filteredProducts.filter(p => p.quantity > 0);
   }
 
   selectProduct(product: Product): void {
@@ -36,6 +42,7 @@ export class CatalogComponentComponent implements OnInit {
     this.productService.getProducts().subscribe({
       next: (products) => {
         this.products = products;
+        this.applyFilter();  // apply filter after loading
         this.isLoading = false;
       },
       error: (err) => {
@@ -44,4 +51,22 @@ export class CatalogComponentComponent implements OnInit {
       }
     });
   }
+
+  filterByCategory(category: string): void {
+    this.selectedCategory = category;
+    this.applyFilter();
+  }
+
+  applyFilter(): void {
+    if (this.selectedCategory === 'All') {
+      this.filteredProducts = this.products;
+    } else {
+      // You’ll need to filter by category — but your Product model currently lacks a 'category' property!
+      // Assuming you add 'category' to Product, filter like this:
+      this.filteredProducts = this.products.filter(
+        p => p.category && p.category.toLowerCase() === this.selectedCategory.toLowerCase()
+      );
+    }
+  }
 }
+
