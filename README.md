@@ -3,6 +3,25 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
 
+![image](https://github.com/user-attachments/assets/2fe20258-e192-44b2-b1fe-cf1773fb507d)
+
+##The fillter 
+
+![image](https://github.com/user-attachments/assets/161bc0f2-4d0c-4441-acf2-e4007d6b8f7d)
+
+![image](https://github.com/user-attachments/assets/ff896c75-3cfb-4699-ab14-81fc8a46fd2e)
+
+![image](https://github.com/user-attachments/assets/31d5f815-e4b8-4e77-810e-887e4f8bee19)
+
+##the details
+
+![image](https://github.com/user-attachments/assets/63ab875b-175c-490b-b48f-fd770400e49c)
+
+![image](https://github.com/user-attachments/assets/d4f0f0b0-e65d-4af3-939c-1920e2b5de6f)
+
+![image](https://github.com/user-attachments/assets/855bd128-e924-4b1c-9aff-9f6937e05705)
+
+
 ## Development server
 
 To start a local development server, run:
