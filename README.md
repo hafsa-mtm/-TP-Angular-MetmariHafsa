@@ -5,15 +5,24 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## the login 
 
-![image](https://github.com/user-attachments/assets/8b77ee8f-46e6-4216-af91-23595105ded1)
+![image](https://github.com/user-attachments/assets/cd0ca2f8-0c46-49d9-8ffe-a4e2125f1194)
 
 ## the sign up 
 
-![image](https://github.com/user-attachments/assets/d47c17b1-1171-4953-82b6-f1aefd130886)
+![image](https://github.com/user-attachments/assets/ff0e949a-bb18-4364-85c5-a0cb194e5556)
 
 ## the catalog page 
 
 ![image](https://github.com/user-attachments/assets/2fe20258-e192-44b2-b1fe-cf1773fb507d)
+
+## after change the language
+
+![image](https://github.com/user-attachments/assets/9feb1ddb-fe63-4bf1-8bcd-b5103f1d8a97)
+
+
+![image](https://github.com/user-attachments/assets/94524a39-9719-41d2-b1dd-407a6268db86)
+
+
 
 ## The fillter 
 
