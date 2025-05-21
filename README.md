@@ -15,6 +15,15 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ![image](https://github.com/user-attachments/assets/2fe20258-e192-44b2-b1fe-cf1773fb507d)
 
+## after change the language
+
+![image](https://github.com/user-attachments/assets/9feb1ddb-fe63-4bf1-8bcd-b5103f1d8a97)
+
+
+![image](https://github.com/user-attachments/assets/94524a39-9719-41d2-b1dd-407a6268db86)
+
+
+
 ## The fillter 
 
 ![image](https://github.com/user-attachments/assets/161bc0f2-4d0c-4441-acf2-e4007d6b8f7d)
