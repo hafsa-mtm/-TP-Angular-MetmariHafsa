@@ -1,8 +1,9 @@
-enum UserType {
+export enum UserType {
     Admin = "Admin",
     Member = "Member",
     Guest = "Guest"
 }
+
 export class User {
     private userId: number;
     private firstName: string;
