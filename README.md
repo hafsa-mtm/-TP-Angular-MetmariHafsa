@@ -5,11 +5,11 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## the login 
 
-![image](https://github.com/user-attachments/assets/8b77ee8f-46e6-4216-af91-23595105ded1)
+![image](https://github.com/user-attachments/assets/cd0ca2f8-0c46-49d9-8ffe-a4e2125f1194)
 
 ## the sign up 
 
-![image](https://github.com/user-attachments/assets/d47c17b1-1171-4953-82b6-f1aefd130886)
+![image](https://github.com/user-attachments/assets/ff0e949a-bb18-4364-85c5-a0cb194e5556)
 
 ## the catalog page 
 
