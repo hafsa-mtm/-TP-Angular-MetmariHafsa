@@ -3,46 +3,62 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { User, UserType } from '../../models/User';
 import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router'
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule , CommonModule ,  RouterModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  firstName = '';
-  lastName = '';
-  age: number = 0;
+  email = '';
   password = '';
-  greeting: string | null = null;
-  currentUser: User | null = null;
+  errorMessage: string | null = null;
 
   constructor(private router: Router) {}
 
   login(): void {
-    const user = new User(Date.now(), this.firstName, this.lastName, this.age);
-
-    if (this.password === 'admin') {
-      user.setUserType(UserType.Admin);
-    } else {
-      user.setUserType(UserType.Member);
+    // Get users from localStorage (assuming users are saved with email and password)
+    const usersData = localStorage.getItem('users');
+    if (!usersData) {
+      this.errorMessage = 'No registered users found. Please sign up first.';
+      return;
     }
 
-    this.currentUser = user;
-    this.greeting = user.greetUser();
+    const users = JSON.parse(usersData) as Array<any>;
+    // Find user with matching email
+    const userData = users.find(u => u.email === this.email);
 
+    if (!userData) {
+      this.errorMessage = 'User with this email does not exist.';
+      return;
+    }
+
+    // Check password
+    if (userData.password !== this.password) {
+      this.errorMessage = 'Incorrect password.';
+      return;
+    }
+
+    // Create User instance
+    const user = new User(userData.userId, userData.firstName, userData.lastName, userData.age, userData.email);
+    user.setUserType(userData.userType);
+
+    // Save current user in localStorage (without password)
     localStorage.setItem('currentUser', JSON.stringify({
-      id: user.getUserId(),
+      userId: user.getUserId(),
       firstName: user.getFirstName(),
       lastName: user.getLastName(),
       age: user.getAge(),
+      email: user.getEmail(),
       userType: user.getUserType()
     }));
 
-    // Redirect to catalog page after login
+    this.errorMessage = null;
+
+    // Redirect after successful login
     this.router.navigate(['/']);
   }
 }

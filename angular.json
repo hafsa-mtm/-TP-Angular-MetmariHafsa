@@ -5,6 +5,12 @@
   "projects": {
     "tp4": {
       "projectType": "application",
+      "i18n": {
+    "sourceLocale": "en-US",
+    "locales": {
+      "fr-CA": "src/locales/messages.fr.xlf"
+    }
+    },
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
@@ -14,9 +20,10 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "polyfills": [
-              "zone.js"
-              ],
-            "localize": false,
+              "zone.js",
+              "@angular/localize/init"
+            ],
+            "localize":["fr-CA"],
             "outputPath": "dist/tp4",
             "index": "src/index.html",
             "browser": "src/main.ts",

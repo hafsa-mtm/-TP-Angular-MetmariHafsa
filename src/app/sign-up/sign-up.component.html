@@ -1,28 +1,32 @@
-<h2>Sign Up</h2>
+<h2 i18n >Sign Up</h2>
 <form (ngSubmit)="register()" #signUpForm="ngForm">
-  <label>First Name:</label>
+  <label i18n >First Name:</label>
   <input type="text" name="firstName" [(ngModel)]="firstName" required />
   <br />
 
-  <label>Last Name:</label>
+  <label i18n >Last Name:</label>
   <input type="text" name="lastName" [(ngModel)]="lastName" required />
   <br />
 
-  <label>Age:</label>
+  <label i18n >Age:</label>
   <input type="number" name="age" [(ngModel)]="age" required />
   <br />
 
-  <label>Password:</label>
+  <label i18n >Email:</label>
+  <input type="email" name="email" [(ngModel)]="email" required />
+  <br />
+
+  <label i18n >Password:</label>
   <input type="password" name="password" [(ngModel)]="password" required />
   <br />
 
-  <label>Confirm Password:</label>
+  <label i18n >Confirm Password:</label>
   <input type="password" name="confirmPassword" [(ngModel)]="confirmPassword" required />
   <br />
 
-  <button type="submit">Register</button>
+  <button type="submit" i18n >Register</button>
 </form>
-<p>Already have an account? 
+<p i18n >Already have an account? 
   <a routerLink="/login">Login here</a>
 </p>
 <p *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</p>
