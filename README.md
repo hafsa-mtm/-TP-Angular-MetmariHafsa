@@ -3,9 +3,19 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
 
+## the login 
+
+![image](https://github.com/user-attachments/assets/8b77ee8f-46e6-4216-af91-23595105ded1)
+
+## the sign up 
+
+![image](https://github.com/user-attachments/assets/d47c17b1-1171-4953-82b6-f1aefd130886)
+
+## the catalog page 
+
 ![image](https://github.com/user-attachments/assets/2fe20258-e192-44b2-b1fe-cf1773fb507d)
 
-##The fillter 
+## The fillter 
 
 ![image](https://github.com/user-attachments/assets/161bc0f2-4d0c-4441-acf2-e4007d6b8f7d)
 
@@ -13,7 +23,7 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ![image](https://github.com/user-attachments/assets/31d5f815-e4b8-4e77-810e-887e4f8bee19)
 
-##the details
+## the details
 
 ![image](https://github.com/user-attachments/assets/63ab875b-175c-490b-b48f-fd770400e49c)
 
