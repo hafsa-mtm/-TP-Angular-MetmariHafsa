@@ -87,57 +87,99 @@
           <context context-type="linenumber">29,32</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="8801207377103999943" datatype="html">
-        <source> Détails </source>
+      <trans-unit id="loadingProducts" datatype="html">
+        <source>Loading products...</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
-          <context context-type="linenumber">25,26</context>
+          <context context-type="linenumber">1,2</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1048895743677949299" datatype="html">
-        <source>Détails du produit</source>
+      <trans-unit id="categoryAll" datatype="html">
+        <source>All</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
+          <context context-type="linenumber">10,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryScreens" datatype="html">
+        <source>Screens</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
+          <context context-type="linenumber">11,12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryLaptops" datatype="html">
+        <source>Laptops</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
+          <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryMouse" datatype="html">
+        <source>Mouse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="categoryTablettes" datatype="html">
+        <source>Tablettes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="detailsButton" datatype="html">
+        <source> Details </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/catalog-component/catalog-component.component.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="productDetailsTitle" datatype="html">
+        <source>Product Details</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">2,4</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="995591611832740139" datatype="html">
+      <trans-unit id="productId" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>ID:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.productId }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">6,7</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2317696743303356470" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Titre:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.productTitle }}"/></source>
+      <trans-unit id="productTitle" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Title:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.productTitle }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">7,8</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1781281262384790626" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Prix:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.productPrice }}"/> DH</source>
+      <trans-unit id="productPrice" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Price:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.productPrice }}"/> DH</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">8,9</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6353712234122234302" datatype="html">
+      <trans-unit id="productDescription" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Description:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.description }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">9,10</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="3882607488353274562" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Quantité:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.quantity }}"/></source>
+      <trans-unit id="productQuantity" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Quantity:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ product.quantity }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">10,12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="7019420837617619992" datatype="html">
-        <source>← Retour au catalogue</source>
+      <trans-unit id="backButton" datatype="html">
+        <source>← Go back</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/catalog-component/product-details/product-details.component.html</context>
           <context context-type="linenumber">12,13</context>

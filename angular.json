@@ -6,11 +6,11 @@
     "tp4": {
       "projectType": "application",
       "i18n": {
-    "sourceLocale": "en-US",
-    "locales": {
-      "fr-CA": "src/locales/messages.fr.xlf"
-    }
-    },
+        "sourceLocale": "en-US",
+        "locales": {
+          "fr": "src/locales/messages.fr.xlf"
+        }
+      },
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
@@ -23,7 +23,6 @@
               "zone.js",
               "@angular/localize/init"
             ],
-            "localize":["fr-CA"],
             "outputPath": "dist/tp4",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -46,6 +45,7 @@
           },
           "configurations": {
             "production": {
+              "localize": ["en-US", "fr"],
               "budgets": [
                 {
                   "type": "initial",
@@ -64,6 +64,12 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "en": {
+              "localize": ["en-US"]
+            },
+            "fr": {
+              "localize": ["fr"]
             }
           },
           "defaultConfiguration": "production"
@@ -76,6 +82,12 @@
             },
             "development": {
               "buildTarget": "tp4:build:development"
+            },
+            "en": {
+              "buildTarget": "tp4:build:en"
+            },
+            "fr": {
+              "buildTarget": "tp4:build:fr"
             }
           },
           "defaultConfiguration": "development"

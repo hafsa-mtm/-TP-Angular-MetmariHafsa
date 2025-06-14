@@ -1,11 +1,18 @@
-<div *ngIf="isLoading" class="loading">Loading products...</div>
+<div *ngIf="isLoading" class="loading" i18n="@@loadingProducts">Loading products...</div>
 <div *ngIf="error" class="error">{{ error }}</div>
+
 <div class="filter-bar">
   <button 
     *ngFor="let category of categories"
     (click)="filterByCategory(category)"
     [class.active]="selectedCategory === category">
-    {{ category }}
+    <ng-container [ngSwitch]="category">
+      <span *ngSwitchCase="'All'" i18n="@@categoryAll">All</span>
+      <span *ngSwitchCase="'Screens'" i18n="@@categoryScreens">Screens</span>
+      <span *ngSwitchCase="'Laptops'" i18n="@@categoryLaptops">Laptops</span>
+      <span *ngSwitchCase="'Mouse'" i18n="@@categoryMouse">Mouse</span>
+      <span *ngSwitchCase="'Tablettes'" i18n="@@categoryTablettes">Tablettes</span>
+    </ng-container>
   </button>
 </div>
 
@@ -21,9 +28,8 @@
       <p class="product-price">{{ product.productPrice | currency }}</p>
     </div>
 
-    <button (click)="selectProduct(product)" class="details-button" i18n >
-      Détails
+    <button (click)="selectProduct(product)" class="details-button" i18n="@@detailsButton">
+      Details
     </button>
-
   </li>
 </ul>

@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { User, UserType } from '../../models/User';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -17,48 +19,22 @@ export class LoginComponent {
   password = '';
   errorMessage: string | null = null;
 
-  constructor(private router: Router) {}
-
-  login(): void {
-    // Get users from localStorage (assuming users are saved with email and password)
-    const usersData = localStorage.getItem('users');
-    if (!usersData) {
-      this.errorMessage = 'No registered users found. Please sign up first.';
-      return;
-    }
-
-    const users = JSON.parse(usersData) as Array<any>;
-    // Find user with matching email
-    const userData = users.find(u => u.email === this.email);
-
-    if (!userData) {
-      this.errorMessage = 'User with this email does not exist.';
-      return;
-    }
-
-    // Check password
-    if (userData.password !== this.password) {
-      this.errorMessage = 'Incorrect password.';
-      return;
-    }
-
-    // Create User instance
-    const user = new User(userData.userId, userData.firstName, userData.lastName, userData.age, userData.email);
-    user.setUserType(userData.userType);
-
-    // Save current user in localStorage (without password)
-    localStorage.setItem('currentUser', JSON.stringify({
-      userId: user.getUserId(),
-      firstName: user.getFirstName(),
-      lastName: user.getLastName(),
-      age: user.getAge(),
-      email: user.getEmail(),
-      userType: user.getUserType()
-    }));
-
+ constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
+ login() {
     this.errorMessage = null;
 
-    // Redirect after successful login
-    this.router.navigate(['/']);
+    if (!this.email || !this.password) {
+      this.errorMessage = 'Email and password are required';
+      return;
+    }
+
+    if (this.authService.login(this.email, this.password)) {
+      this.router.navigate(['/']);
+    } else {
+      this.errorMessage = 'Invalid email or password';
+    }
   }
 }

@@ -5,21 +5,15 @@ export enum UserType {
 }
 
 export class User {
-  private userId: number;
-  private firstName: string;
-  private lastName: string;
-  private age: number;
-  private email: string;
-  private userType: UserType;
-
-  constructor(userId: number, firstName: string, lastName: string, age: number, email: string) {
-    this.userId = userId;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.age = age;
-    this.email = email;
-    this.userType = UserType.Member; // Default user type
-  }
+  constructor(
+    private userId: number,
+    private firstName: string,
+    private lastName: string,
+    private age: number,
+    private email: string,
+    private password: string,  // Add password
+    private userType: UserType = UserType.Member  // Use enum
+  ) {}
 
   fullName(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -82,5 +76,13 @@ export class User {
 
   setUserType(userType: UserType): void {
     this.userType = userType;
+  }
+  
+  getPassword(): string {
+    return this.password;
+  }
+
+  setPassword(password: string): void {
+    this.password = password;
   }
 }
