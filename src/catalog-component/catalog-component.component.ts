@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { ProductService } from '../services/product.service'; // adjust path
 import { Product } from '../models/Product'; // adjust path
 import { CommonModule } from '@angular/common';
+import { CartService } from '../app/services/cart.service';
+
 
 @Component({
   selector: 'app-catalog-component',
@@ -21,8 +23,11 @@ export class CatalogComponentComponent implements OnInit {
   selectedCategory: string = 'All';
   filteredProducts: Product[] = [];
 
-  constructor(private productService: ProductService, private router: Router) {}
-
+  constructor(private cartService: CartService, private productService: ProductService, private router: Router) {}
+   addToCart(product: Product): void {
+    this.cartService.addToCart(product);
+    alert(`${product.productTitle} added to cart!`); // Temporary feedback
+  }
   ngOnInit(): void {
     this.loadProducts();
   }

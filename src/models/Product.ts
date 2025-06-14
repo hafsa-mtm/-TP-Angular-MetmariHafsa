@@ -56,4 +56,14 @@ export class Product {
   public setCategory(category: string): void {   
     this.category = category;
   }
-}
+   static fromObject(obj: any): Product {
+    return new Product(
+      obj.productId,
+      obj.productTitle,
+      obj.productPrice,
+      obj.quantity || 1,
+      obj.description,
+      obj.imageUrl,
+      obj.category
+    )
+}}

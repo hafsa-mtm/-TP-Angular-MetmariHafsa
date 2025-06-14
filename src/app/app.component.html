@@ -1,5 +1,11 @@
 <header>
   <a routerLink="/">Home</a> |
-  <a routerLink="/login">Login</a>
+  <a routerLink="/login">Login</a> |
+  <a routerLink="/cart" class="cart-link">
+    🛒 Cart 
+    <span *ngIf="cartService.getCartItems().length > 0" class="cart-count">
+      ({{ cartService.getCartItems().length }})
+    </span>
+  </a>
 </header>
 <router-outlet></router-outlet>
