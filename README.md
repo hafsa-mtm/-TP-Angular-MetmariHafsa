@@ -7,9 +7,15 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ![image](https://github.com/user-attachments/assets/cd0ca2f8-0c46-49d9-8ffe-a4e2125f1194)
 
+![image](https://github.com/user-attachments/assets/42edd473-dbaf-48e8-87c7-530658082e1b)
+
+
 ## the sign up 
 
 ![image](https://github.com/user-attachments/assets/ff0e949a-bb18-4364-85c5-a0cb194e5556)
+
+![image](https://github.com/user-attachments/assets/d0201029-e428-4599-9157-7d502a200cb0)
+
 
 ## the catalog page 
 
