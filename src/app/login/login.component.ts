@@ -23,18 +23,20 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) {}
- login() {
-    this.errorMessage = null;
+ // login.component.ts
+login() {
+  this.errorMessage = null;
 
-    if (!this.email || !this.password) {
-      this.errorMessage = 'Email and password are required';
-      return;
-    }
-
-    if (this.authService.login(this.email, this.password)) {
-      this.router.navigate(['/']);
-    } else {
-      this.errorMessage = 'Invalid email or password';
-    }
+  if (!this.email || !this.password) {
+    this.errorMessage = 'Email and password are required';
+    return;
   }
+
+  if (this.authService.login(this.email, this.password)) {
+    // Clear any previous cart data if needed
+    this.router.navigate(['/']);
+  } else {
+    this.errorMessage = 'Invalid email or password';
+  }
+}
 }
