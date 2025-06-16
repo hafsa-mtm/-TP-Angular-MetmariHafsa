@@ -52,17 +52,18 @@ export const routes: Routes = [
   },
   // Admin routes
  {
-  path: 'admin',
-  canActivate: [AdminGuard],
-  children: [
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'products', component: AdminProductsComponent },
-    { path: 'users', component: AdminUsersComponent },
-    { path: 'orders', component: AdminOrdersComponent}, // Add this
-    { path: 'profile', component: AdminProfileComponent }, // Add this
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
-  ]
-
+    path: 'admin',
+    canActivate: [AdminGuard],
+    children: [
+      { path: 'dashboard', component: DashboardComponent, title: 'Admin Dashboard' },
+      { path: 'products', component: AdminProductsComponent, title: 'Manage Products' },
+      { path: 'products/add', component: AdminProductsComponent, title: 'Add Product' },
+      { path: 'users', component: AdminUsersComponent, title: 'Manage Users' },
+      { path: 'users/create', component: AdminUsersComponent, title: 'Create User' },
+      { path: 'orders', component: AdminOrdersComponent, title: 'Manage Orders' },
+      { path: 'profile', component: AdminProfileComponent, title: 'Admin Profile' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+    ]
   },
   // Wildcard route (must be last)
   { 

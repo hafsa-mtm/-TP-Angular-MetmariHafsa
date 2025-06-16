@@ -1,41 +1,40 @@
+<!-- sidebar.component.html -->
 <aside class="sidebar">
   <div class="sidebar-header">
-    <h2>{{ authService.isLoggedIn() ? 'My Account' : 'Welcome' }}</h2>
+    <h2>
+      {{ isAdminRoute() ? 'Admin Panel' : 
+         (authService.isLoggedIn() ? 'My Account' : 'Welcome') }}
+    </h2>
   </div>
 
   <nav class="sidebar-nav">
-    <!-- Common Links -->
-    <a routerLink="/" routerLinkActive="active">
-      <span>🏠</span> Home
-    </a>
-   <a routerLink="/cart" class="nav-link">
-  🛒 Cart
-  <span *ngIf="cartCount > 0" class="cart-badge">
-    {{ cartCount }}
-  </span>
-</a>
-
-    <!-- User Links -->
-    <ng-container *ngIf="authService.isLoggedIn()">
-      <a routerLink="/profile" routerLinkActive="active">
-        <span>👤</span> Profile
-      </a>
-      <a routerLink="/orders" routerLinkActive="active">
-        <span>📋</span> Orders
+    <!-- Cart Link (only shown in non-admin views) -->
+    <ng-container *ngIf="!isAdminRoute()">
+      <a routerLink="/cart" routerLinkActive="active" class="nav-link">
+        <span>🛒</span> Cart
+        <span *ngIf="cartCount > 0" class="cart-badge">
+          {{ cartCount }}
+        </span>
       </a>
     </ng-container>
 
     <!-- Admin Links -->
-    <ng-container *ngIf="authService.getCurrentUser()?.getUserType() === UserType.Admin">
+    <ng-container *ngIf="isAdminRoute()">
       <div class="section-divider">Admin</div>
-      <a routerLink="/admin/dashboard" routerLinkActive="active">
-        <span>📊</span> Dashboard
+      <a *ngFor="let link of adminLinks" 
+         [routerLink]="link.path" 
+         routerLinkActive="active">
+        <span>{{link.icon}}</span> {{link.label}}
       </a>
-      <a routerLink="/admin/products" routerLinkActive="active">
-        <span>📦</span> Products
-      </a>
-      <a routerLink="/admin/users" routerLinkActive="active">
-        <span>👥</span> Users
+    </ng-container>
+
+    <!-- Regular User Links -->
+    <ng-container *ngIf="authService.isLoggedIn() && !isAdminRoute()">
+      <div class="section-divider">My Account</div>
+      <a *ngFor="let link of userLinks" 
+         [routerLink]="link.path" 
+         routerLinkActive="active">
+        <span>{{link.icon}}</span> {{link.label}}
       </a>
     </ng-container>
   </nav>

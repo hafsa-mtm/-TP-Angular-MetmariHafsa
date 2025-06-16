@@ -87,4 +87,15 @@ export class CartService {
       console.error('Error saving cart to localStorage', e);
     }
   }
+  updateQuantity(productId: number, quantity: number): void {
+  if (!this.isBrowser) return;
+
+  const cartItems = this.getCartItems();
+  const item = cartItems.find(i => i.getProductId() === productId);
+  
+  if (item) {
+    item.setQuantity(quantity);
+    this.saveCart(cartItems);
+  }
+}
 }

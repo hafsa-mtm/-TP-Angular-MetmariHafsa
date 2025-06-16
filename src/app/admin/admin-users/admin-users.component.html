@@ -1,30 +1,61 @@
+<!-- admin-users.component.html -->
 <div class="admin-users">
   <h2>Manage Users</h2>
   
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Type</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of dummyUsers">
-        <td>{{ user.id }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.type }}</td>
-        <td>
-          <button *ngIf="user.type !== 'Admin'" 
-                  class="promote-btn"
-                  (click)="promoteUser(user.id)">
-            Promote to Admin
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="user-form">
+    <h3>Add New User</h3>
+    <form (ngSubmit)="addUser()">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" [(ngModel)]="newUser.name" name="name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="type">User Type</label>
+        <select id="type" [(ngModel)]="newUser.type" name="type">
+          <option value="Member">Member</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit">Add User</button>
+      </div>
+    </form>
+  </div>
+  
+  <div class="user-list">
+    <h3>User List</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Type</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.type }}</td>
+          <td>{{ user.createdAt | date }}</td>
+          <td class="actions">
+            <button (click)="promoteUser(user)" *ngIf="user.type === 'Member'">Make Admin</button>
+            <button (click)="demoteUser(user)" *ngIf="user.type === 'Admin'">Make Member</button>
+            <button (click)="deleteUser(user.id)" class="delete">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

@@ -1,31 +1,68 @@
+<!-- admin-products.component.html -->
 <div class="admin-products">
   <h2>Manage Products</h2>
   
-  <div class="product-actions">
-    <button class="add-btn">+ Add Product</button>
+  <div class="product-form">
+    <h3>{{ isEditing ? 'Edit Product' : 'Add New Product' }}</h3>
+    <form (ngSubmit)="isEditing ? updateProduct() : addProduct()">
+      <div class="form-group">
+        <label for="name">Product Name</label>
+        <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" step="0.01" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="stock">Stock Quantity</label>
+        <input type="number" id="stock" [(ngModel)]="newProduct.stock" name="stock" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" [(ngModel)]="newProduct.description" name="description"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text" id="category" [(ngModel)]="newProduct.category" name="category">
+      </div>
+      
+      <div class="form-actions">
+        <button type="submit">{{ isEditing ? 'Update' : 'Add' }} Product</button>
+        <button type="button" (click)="resetForm()" *ngIf="isEditing">Cancel</button>
+      </div>
+    </form>
   </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Stock</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of dummyProducts">
-        <td>{{ product.id }}</td>
-        <td>{{ product.name }}</td>
-        <td>${{ product.price }}</td>
-        <td>{{ product.stock }}</td>
-        <td>
-          <button class="edit-btn">Edit</button>
-          <button class="delete-btn">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  
+  <div class="product-list">
+    <h3>Product List</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price | currency }}</td>
+          <td>{{ product.stock }}</td>
+          <td>{{ product.category }}</td>
+          <td class="actions">
+            <button (click)="editProduct(product)">Edit</button>
+            <button (click)="deleteProduct(product.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

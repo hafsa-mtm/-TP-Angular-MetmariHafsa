@@ -1,11 +1,38 @@
-<div class="orders-container">
+<!-- orders.component.html -->
+<div class="dashboard-container">
   <h2>My Orders</h2>
-  <div class="order-list">
-    <div class="order-card" *ngFor="let order of dummyOrders">
-      <h3>Order #{{ order.id }}</h3>
-      <p>Date: {{ order.date }}</p>
-      <p>Total: ${{ order.total }}</p>
-      <p>Status: {{ order.status }}</p>
+  
+  <div *ngIf="orders.length === 0" class="empty-state">
+    <span class="icon">📋</span>
+    <h3>No orders yet</h3>
+    <p>Your order history will appear here</p>
+    <button routerLink="/" class="btn-primary">Start Shopping</button>
+  </div>
+
+  <div *ngIf="orders.length > 0" class="orders-list">
+    <div *ngFor="let order of orders" class="order-card">
+      <div class="order-header">
+        <div class="order-id">Order #{{ order.id }}</div>
+        <div class="order-date">{{ order.date | date }}</div>
+        <div class="order-status" [ngClass]="getStatusClass(order.status)">
+          {{ order.status }}
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <div *ngFor="let item of order.items" class="order-item">
+          <div class="item-name">{{ item.name }}</div>
+          <div class="item-quantity">Qty: {{ item.quantity }}</div>
+          <div class="item-price">{{ item.price | currency }}</div>
+        </div>
+      </div>
+      
+      <div class="order-footer">
+        <div class="order-total">
+          <strong>Total: {{ order.total | currency }}</strong>
+        </div>
+        <button class="btn-secondary">View Details</button>
+      </div>
     </div>
   </div>
 </div>

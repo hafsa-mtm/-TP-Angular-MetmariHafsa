@@ -1,10 +1,32 @@
 <!-- admin/dashboard.component.html -->
-<div class="admin-dashboard">
+<div class="dashboard-container">
   <h2>Admin Dashboard</h2>
   
-  <div class="admin-actions">
-    <button routerLink="/admin/products">Manage Products</button>
-    <button routerLink="/admin/users">Manage Users</button>
-    <button routerLink="/admin/orders">View Orders</button>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Total Products</h3>
+      <p>{{ stats.totalProducts }}</p>
+      <button routerLink="/admin/products">Manage Products</button>
+    </div>
+    
+    <div class="stat-card">
+      <h3>Total Orders</h3>
+      <p>{{ stats.totalOrders }}</p>
+      <button routerLink="/admin/orders">View Orders</button>
+    </div>
+    
+    <div class="stat-card">
+      <h3>Total Users</h3>
+      <p>{{ stats.totalUsers }}</p>
+      <button routerLink="/admin/users">Manage Users</button>
+    </div>
+  </div>
+  
+  <div class="quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="action-buttons">
+      <button routerLink="/admin/products/add" class="action-button">Add New Product</button>
+      <button routerLink="/admin/users/create" class="action-button">Create New User</button>
+    </div>
   </div>
 </div>
