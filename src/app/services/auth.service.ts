@@ -42,7 +42,8 @@ export class AuthService {
     }
   }
 
-  register(userData: any): boolean {
+ // auth.service.ts
+register(userData: any, isAdmin: boolean = false): boolean {
     if (!this.isBrowser) return false;
 
     const users = this.getStoredUsers();
@@ -58,15 +59,14 @@ export class AuthService {
       userData.age,
       userData.email,
       userData.password,
-      UserType.Member
+      isAdmin ? UserType.Admin : UserType.Member // Set type based on flag
     );
 
     users.push(newUser);
     this.saveUsers(users);
     this.setCurrentUser(newUser);
     return true;
-  }
-
+}
   login(email: string, password: string): boolean {
     if (!this.isBrowser) return false;
 

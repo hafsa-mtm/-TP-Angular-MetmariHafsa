@@ -26,7 +26,8 @@ export class SignUpComponent {
     private router: Router
   ) {}
   // sign-up.component.ts
- register() {
+ // sign-up.component.ts
+register() {
     this.errorMessage = '';
 
     if (!this.email || !this.password || !this.confirmPassword) {
@@ -37,17 +38,21 @@ export class SignUpComponent {
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Passwords do not match!';
       return;
-    }  const success = this.authService.register({
-    firstName: this.firstName,
-    lastName: this.lastName,
-    age: this.age,
-    email: this.email,
-    password: this.password
-  });
-if (success) {
-    this.router.navigate(['/login']); 
-  } else {
-    this.errorMessage = 'Email already registered!';
-  }
-}
-}
+    }
+
+    // Check for admin registration secret key
+    const isAdmin = this.email.includes('@admin.com'); // Or any other logic
+    const success = this.authService.register({
+      firstName: this.firstName,
+      lastName: this.lastName,
+      age: this.age,
+      email: this.email,
+      password: this.password
+    }, isAdmin);
+
+    if (success) {
+      this.router.navigate(['/login']); 
+    } else {
+      this.errorMessage = 'Email already registered!';
+    }
+}}

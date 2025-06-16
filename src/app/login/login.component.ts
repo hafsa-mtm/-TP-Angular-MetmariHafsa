@@ -23,7 +23,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router
   ) {}
- // login.component.ts
+// login.component.ts
 login() {
   this.errorMessage = null;
 
@@ -33,8 +33,12 @@ login() {
   }
 
   if (this.authService.login(this.email, this.password)) {
-    // Clear any previous cart data if needed
-    this.router.navigate(['/']);
+    const user = this.authService.getCurrentUser();
+    if (user?.getUserType() === UserType.Admin) {
+      this.router.navigate(['/admin/dashboard']);
+    } else {
+      this.router.navigate(['/']);
+    }
   } else {
     this.errorMessage = 'Invalid email or password';
   }

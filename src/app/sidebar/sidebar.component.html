@@ -1,0 +1,58 @@
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h2>{{ authService.isLoggedIn() ? 'My Account' : 'Welcome' }}</h2>
+  </div>
+
+  <nav class="sidebar-nav">
+    <!-- Common Links -->
+    <a routerLink="/" routerLinkActive="active">
+      <span>🏠</span> Home
+    </a>
+   <a routerLink="/cart" class="nav-link">
+  🛒 Cart
+  <span *ngIf="cartCount > 0" class="cart-badge">
+    {{ cartCount }}
+  </span>
+</a>
+
+    <!-- User Links -->
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <a routerLink="/profile" routerLinkActive="active">
+        <span>👤</span> Profile
+      </a>
+      <a routerLink="/orders" routerLinkActive="active">
+        <span>📋</span> Orders
+      </a>
+    </ng-container>
+
+    <!-- Admin Links -->
+    <ng-container *ngIf="authService.getCurrentUser()?.getUserType() === UserType.Admin">
+      <div class="section-divider">Admin</div>
+      <a routerLink="/admin/dashboard" routerLinkActive="active">
+        <span>📊</span> Dashboard
+      </a>
+      <a routerLink="/admin/products" routerLinkActive="active">
+        <span>📦</span> Products
+      </a>
+      <a routerLink="/admin/users" routerLinkActive="active">
+        <span>👥</span> Users
+      </a>
+    </ng-container>
+  </nav>
+
+  <div class="sidebar-footer">
+    <ng-container *ngIf="!authService.isLoggedIn()">
+      <a routerLink="/login" class="auth-link">
+        <span>🔑</span> Login
+      </a>
+      <a routerLink="/signup" class="auth-link signup">
+        <span>✏️</span> Sign Up
+      </a>
+    </ng-container>
+    <ng-container *ngIf="authService.isLoggedIn()">
+      <button (click)="authService.logout()" class="auth-link">
+        <span>🚪</span> Logout
+      </button>
+    </ng-container>
+  </div>
+</aside>

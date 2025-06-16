@@ -1,65 +1,78 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CartService } from './services/cart.service';
+import { AuthService } from './services/auth.service';
+import { UserType } from '../models/User';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, CommonModule], // Add RouterLink and CommonModule
+  imports: [RouterOutlet, CommonModule, SidebarComponent],
   template: `
-    <header>
-      <a routerLink="/">Home</a> |
-      <a routerLink="/login">Login</a> |
-      <a routerLink="/cart" class="cart-link">
-        🛒 Cart 
-        <span *ngIf="cartService.getCartItems().length > 0" class="cart-count">
-          ({{ cartService.getCartItems().length }})
-        </span>
-      </a>
-    </header>
-    <router-outlet></router-outlet>
+    <!-- Auth Pages (no sidebar/header) -->
+    <div *ngIf="isAuthPage()" class="auth-layout">
+      <router-outlet></router-outlet>
+    </div>
+
+    <!-- Main App Layout (with sidebar) -->
+    <div *ngIf="!isAuthPage()" class="app-layout">
+      <app-sidebar [cartCount]="cartService.getCartItems().length"></app-sidebar>
+      <main class="main-content">
+        <router-outlet></router-outlet>
+      </main>
+    </div>
   `,
   styles: [`
-    .cart-link {
-      text-decoration: none;
-      color: inherit;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    
-    .cart-count {
-      background: #1976d2;
-      color: white;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 12px;
-      display: inline-flex;
-      align-items: center;
+    /* Auth Layout */
+    .auth-layout {
+      min-height: 100vh;
+      display: flex;
       justify-content: center;
+      align-items: center;
+      background: #f5f7fa;
+      padding: 2rem;
     }
-    
-    header {
-      padding: 1rem;
-      background: #f5f5f5;
-      margin-bottom: 2rem;
-      font-family: Arial, sans-serif;
+
+    /* Main App Layout */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
     }
-    
-    header a {
-      margin: 0 0.5rem;
-      color: #333;
-      text-decoration: none;
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      margin-left: 250px;
+      background: #f5f7fa;
+      min-height: calc(100vh - 4rem);
     }
-    
-    header a:hover {
-      text-decoration: underline;
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .auth-layout {
+        padding: 1rem;
+      }
+      
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
     }
   `]
 })
 export class AppComponent {
-  title = 'tp4';
-  constructor(public cartService: CartService) {}
+  UserType = UserType;  // Required for template binding
+
+  constructor(
+    public cartService: CartService,
+    public authService: AuthService,
+    private router: Router
+  ) {}
+
+  isAuthPage(): boolean {
+    return this.router.url.includes('/login') || 
+           this.router.url.includes('/signup');
+  }
 }

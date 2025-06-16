@@ -1,0 +1,16 @@
+.orders-container {
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.order-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.order-card h3 {
+  margin-top: 0;
+  color: #1976d2;
+}

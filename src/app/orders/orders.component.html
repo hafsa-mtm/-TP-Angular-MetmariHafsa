@@ -1,0 +1,11 @@
+<div class="orders-container">
+  <h2>My Orders</h2>
+  <div class="order-list">
+    <div class="order-card" *ngFor="let order of dummyOrders">
+      <h3>Order #{{ order.id }}</h3>
+      <p>Date: {{ order.date }}</p>
+      <p>Total: ${{ order.total }}</p>
+      <p>Status: {{ order.status }}</p>
+    </div>
+  </div>
+</div>

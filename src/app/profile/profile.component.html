@@ -1,0 +1,13 @@
+<div class="profile-container">
+  <h2>My Profile</h2>
+  <div *ngIf="authService.getCurrentUser() as user">
+    <p><strong>Name:</strong> {{ user.getFirstName() }} {{ user.getLastName() }}</p>
+    <p><strong>Email:</strong> {{ user.getEmail() }}</p>
+    
+    <div class="form-group">
+      <label>Change Password</label>
+      <input type="password" placeholder="New password">
+      <button>Update</button>
+    </div>
+  </div>
+</div>
