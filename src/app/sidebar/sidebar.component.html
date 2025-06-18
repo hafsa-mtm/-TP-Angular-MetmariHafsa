@@ -1,56 +1,68 @@
-<!-- sidebar.component.html -->
 <aside class="sidebar">
   <div class="sidebar-header">
-    <h2>
-      {{ isAdminRoute() ? 'Admin Panel' : 
-         (authService.isLoggedIn() ? 'My Account' : 'Welcome') }}
-    </h2>
+    <div class="logo-container">
+      <span class="material-icons">store</span>
+      <h2>{{ isAdminRoute() ? 'Admin Panel' : 'E-Shop' }}</h2>
+    </div>
   </div>
 
   <nav class="sidebar-nav">
-    <!-- Cart Link (only shown in non-admin views) -->
-    <ng-container *ngIf="!isAdminRoute()">
-      <a routerLink="/cart" routerLinkActive="active" class="nav-link">
-        <span>🛒</span> Cart
-        <span *ngIf="cartCount > 0" class="cart-badge">
-          {{ cartCount }}
-        </span>
-      </a>
-    </ng-container>
+    <!-- User Info Section -->
+    <div class="user-info" *ngIf="authService.isLoggedIn()">
+      <span class="material-icons user-avatar">account_circle</span>
+      <div class="user-details">
+        <p class="user-name">{{authService.getCurrentUser()?.fullName()}}</p>
+        <p class="user-role">{{authService.getCurrentUser()?.getUserType()}}</p>
+      </div>
+    </div>
 
     <!-- Admin Links -->
     <ng-container *ngIf="isAdminRoute()">
-      <div class="section-divider">Admin</div>
-      <a *ngFor="let link of adminLinks" 
-         [routerLink]="link.path" 
-         routerLinkActive="active">
-        <span>{{link.icon}}</span> {{link.label}}
-      </a>
+      <div class="nav-section">
+        <div class="section-title">Administration</div>
+        <a *ngFor="let link of adminLinks" 
+           [routerLink]="link.path" 
+           routerLinkActive="active"
+           class="nav-link">
+          <span class="material-icons">{{link.icon}}</span>
+          <span>{{link.label}}</span>
+        </a>
+      </div>
     </ng-container>
 
     <!-- Regular User Links -->
     <ng-container *ngIf="authService.isLoggedIn() && !isAdminRoute()">
-      <div class="section-divider">My Account</div>
-      <a *ngFor="let link of userLinks" 
-         [routerLink]="link.path" 
-         routerLinkActive="active">
-        <span>{{link.icon}}</span> {{link.label}}
-      </a>
+      <div class="nav-section">
+        <div class="section-title">My Account</div>
+        <a *ngFor="let link of userLinks" 
+           [routerLink]="link.path" 
+           routerLinkActive="active"
+           class="nav-link">
+          <span class="material-icons">{{link.icon}}</span>
+          <span>{{link.label}}</span>
+          <span *ngIf="link.path === '/cart' && cartCount > 0" class="cart-badge">
+            {{cartCount}}
+          </span>
+        </a>
+      </div>
     </ng-container>
   </nav>
 
   <div class="sidebar-footer">
     <ng-container *ngIf="!authService.isLoggedIn()">
       <a routerLink="/login" class="auth-link">
-        <span>🔑</span> Login
+        <span class="material-icons">login</span>
+        <span>Login</span>
       </a>
       <a routerLink="/signup" class="auth-link signup">
-        <span>✏️</span> Sign Up
+        <span class="material-icons">person_add</span>
+        <span>Sign Up</span>
       </a>
     </ng-container>
     <ng-container *ngIf="authService.isLoggedIn()">
-      <button (click)="authService.logout()" class="auth-link">
-        <span>🚪</span> Logout
+      <button (click)="authService.logout()" class="auth-link logout">
+        <span class="material-icons">logout</span>
+        <span>Logout</span>
       </button>
     </ng-container>
   </div>

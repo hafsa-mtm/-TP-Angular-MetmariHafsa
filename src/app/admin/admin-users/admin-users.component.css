@@ -1,105 +1,99 @@
-/* admin-users.component.css */
 .admin-users {
-  padding: 2rem;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--beige-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .admin-users h2 {
-  color: #333;
+  color: var(--primary-dark);
   margin-bottom: 2rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
 }
 
 .user-form {
   background: white;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.user-form h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--text-dark);
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.form-actions {
-  margin-top: 1rem;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--beige-light);
 }
 
 .form-actions button {
-  padding: 0.5rem 1rem;
-  background: #3498db;
-  color: white;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--button-text);
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-}
-
-.form-actions button:hover {
-  background: #2980b9;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
 }
 
 .user-list table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.user-list th,
-.user-list td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+  margin-top: 1rem;
 }
 
 .user-list th {
-  background: #f8f9fa;
+  background: var(--beige-medium);
+  padding: 0.75rem;
+  text-align: left;
   font-weight: 600;
 }
 
-.user-list tr:hover {
-  background: #f5f7fa;
+.user-list td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .actions button {
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem 1rem;
   margin-right: 0.5rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .actions button:not(.delete) {
-  background: #2ecc71;
+  background-color: var(--primary-color);
+  color: var(--button-text);
+}
+
+.actions button.delete {
+  background-color: var(--error-color);
   color: white;
-}
-
-.actions button:not(.delete):hover {
-  background: #27ae60;
-}
-
-.actions .delete {
-  background: #e74c3c;
-  color: white;
-}
-
-.actions .delete:hover {
-  background: #c0392b;
 }

@@ -1,4 +1,3 @@
-// sidebar.component.ts
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -16,26 +15,28 @@ export class SidebarComponent {
   @Input() cartCount = 0;
   UserType = UserType;
   
-  // Admin links data
+  // Admin links
   adminLinks = [
-    { path: '/admin/dashboard', icon: '📊', label: 'Dashboard' },
-    { path: '/admin/products', icon: '📦', label: 'Products' },
-    { path: '/admin/orders', icon: '📋', label: 'Orders' },
-    { path: '/admin/users', icon: '👥', label: 'Users' },
-    { path: '/admin/profile', icon: '⚙️', label: 'Admin Profile' }
+    { path: '/admin/dashboard', icon: 'dashboard', label: 'Dashboard' },
+    { path: '/admin/products', icon: 'inventory_2', label: 'Products' },
+    { path: '/admin/orders', icon: 'receipt_long', label: 'Orders' },
+    { path: '/admin/users', icon: 'people', label: 'Users' },
+    { path: '/admin/profile', icon: 'settings', label: 'Profile' }
   ];
 
-  // Regular user links data
+  // Regular user links
   userLinks = [
-    { path: '/', icon: '🏠', label: 'Home' },
-    { path: '/profile', icon: '👤', label: 'Profile' },
-    { path: '/orders', icon: '📋', label: 'Orders' }
+    { path: '/', icon: 'home', label: 'Home' },
+    { path: '/cart', icon: 'shopping_cart', label: 'Cart' },
+    { path: '/orders', icon: 'receipt', label: 'Orders' },
+    { path: '/profile', icon: 'person', label: 'Profile' }
   ];
 
   constructor(public authService: AuthService) {}
 
   isAdminRoute(): boolean {
-    return this.authService.getCurrentUser()?.getUserType() === UserType.Admin && 
+    const user = this.authService.getCurrentUser();
+    return user?.getUserType() === UserType.Admin && 
            window.location.pathname.startsWith('/admin');
   }
 }

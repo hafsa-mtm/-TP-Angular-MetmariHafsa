@@ -1,10 +1,10 @@
+// catalog-component.component.ts
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ProductService } from '../services/product.service'; // adjust path
-import { Product } from '../models/Product'; // adjust path
+import { ProductService } from '../services/product.service';
+import { Product } from '../models/Product';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../app/services/cart.service';
-
 
 @Component({
   selector: 'app-catalog-component',
@@ -14,27 +14,33 @@ import { CartService } from '../app/services/cart.service';
   imports: [CommonModule]
 })
 export class CatalogComponentComponent implements OnInit {
-  products: Product[] = [];
   isLoading = false;
   error: string | null = null;
-
-  // Add these for filtering
   categories: string[] = ['All', 'Screens', 'Laptops', 'Mouse', 'Tablettes'];
   selectedCategory: string = 'All';
   filteredProducts: Product[] = [];
 
-  constructor(private cartService: CartService, private productService: ProductService, private router: Router) {}
-   addToCart(product: Product): void {
-    this.cartService.addToCart(product);
-    alert(`${product.productTitle} added to cart!`); // Temporary feedback
-  }
+  constructor(
+    private cartService: CartService, 
+    private productService: ProductService, 
+    private router: Router
+  ) {}
+
   ngOnInit(): void {
     this.loadProducts();
   }
 
   get availableProducts(): Product[] {
-    // You can now return filteredProducts filtered by quantity
     return this.filteredProducts.filter(p => p.quantity > 0);
+  }
+
+  addToCart(product: Product): void {
+    if (product.quantity > 0) {
+      this.cartService.addToCart(product);
+      alert(`${product.productTitle} added to cart!`);
+    } else {
+      alert('This product is out of stock!');
+    }
   }
 
   selectProduct(product: Product): void {
@@ -44,10 +50,10 @@ export class CatalogComponentComponent implements OnInit {
   loadProducts(): void {
     this.isLoading = true;
     this.error = null;
-    this.productService.getProducts().subscribe({
+    this.productService.products$.subscribe({
       next: (products) => {
-        this.products = products;
-        this.applyFilter();  // apply filter after loading
+        this.filteredProducts = products;
+        this.applyFilter();
         this.isLoading = false;
       },
       error: (err) => {
@@ -55,6 +61,7 @@ export class CatalogComponentComponent implements OnInit {
         this.isLoading = false;
       }
     });
+    this.productService.loadProducts();
   }
 
   filterByCategory(category: string): void {
@@ -63,15 +70,13 @@ export class CatalogComponentComponent implements OnInit {
   }
 
   applyFilter(): void {
+    const products = this.filteredProducts;
     if (this.selectedCategory === 'All') {
-      this.filteredProducts = this.products;
+      this.filteredProducts = [...products];
     } else {
-      // You’ll need to filter by category — but your Product model currently lacks a 'category' property!
-      // Assuming you add 'category' to Product, filter like this:
-      this.filteredProducts = this.products.filter(
+      this.filteredProducts = products.filter(
         p => p.category && p.category.toLowerCase() === this.selectedCategory.toLowerCase()
       );
     }
   }
 }
-

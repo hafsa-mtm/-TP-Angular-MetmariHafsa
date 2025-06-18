@@ -1,13 +1,36 @@
-<div *ngIf="product">
+<div *ngIf="product" class="product-details-container">
+  
   <h3 i18n="@@productDetailsTitle">Product Details</h3>
   
-  <img [src]="product.imageUrl" alt="{{ product.productTitle }}" width="100" height="100">
+  <div class="product-image-container">
+    <img [src]="product.imageUrl" alt="{{ product.productTitle }}" class="product-detail-image" />
+  </div>
   
-  <p i18n="@@productId"><strong>ID:</strong> {{ product.productId }}</p>
-  <p i18n="@@productTitle"><strong>Title:</strong> {{ product.productTitle }}</p>
-  <p i18n="@@productPrice"><strong>Price:</strong> {{ product.productPrice }} DH</p>
-  <p i18n="@@productDescription"><strong>Description:</strong> {{ product.description }}</p>
-  <p i18n="@@productQuantity"><strong>Quantity:</strong> {{ product.quantity }}</p>
+  <div class="product-info">
+    <p i18n="@@productId"><strong>ID:</strong> {{ product.productId }}</p>
+    <p i18n="@@productTitle"><strong>Title:</strong> {{ product.productTitle }}</p>
+    <p i18n="@@productPrice"><strong>Price:</strong> {{ product.productPrice }} DH</p>
+    <p i18n="@@productDescription"><strong>Description:</strong> {{ product.description }}</p>
+    
+    <div class="quantity-section" 
+         [class.low-stock]="product.quantity <= 5 && product.quantity > 0" 
+         [class.out-of-stock]="product.quantity === 0">
+      <p i18n="@@productQuantity">
+        <strong>Available:</strong> 
+        <span *ngIf="product.quantity > 0">{{ product.quantity }}</span>
+        <span *ngIf="product.quantity === 0">Out of Stock</span>
+      </p>
+      
+      <div *ngIf="product.quantity > 0" class="add-to-cart-controls">
+        <label i18n="@@quantityLabel" for="quantity-input">Quantity:</label>
+        <input id="quantity-input" type="number" [(ngModel)]="quantityToAdd" 
+               min="1" [max]="product.quantity" class="quantity-input" />
+        <button (click)="addToCart()" class="add-to-cart-btn" i18n="@@addToCartButton">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
 
-  <button routerLink="/" class="back-button" i18n="@@backButton">← Go back</button>
+  <button routerLink="/catalog" class="back-button" i18n="@@backButton">← Go back</button>
 </div>

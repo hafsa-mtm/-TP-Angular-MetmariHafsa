@@ -19,20 +19,35 @@
 <ul class="product-grid" *ngIf="!isLoading && !error">
   <li *ngFor="let product of filteredProducts"
       class="product-card" 
-      [class.low-quantity]="product.quantity < 10">
+      [class.low-quantity]="product.quantity < 10 && product.quantity > 0"
+      [class.out-of-stock]="product.quantity === 0">
 
-    <img class="product-image" [src]="product.imageUrl" [alt]="product.productTitle" />
+    <img class="product-image" [src]="product.imageUrl" [alt]="product.productTitle" (click)="selectProduct(product)"/>
     
     <div class="product-info">
       <h3 class="product-title">{{ product.productTitle }}</h3>
-      <p class="product-price">{{ product.productPrice | currency }}</p>
+      <p class="product-price">{{ product.productPrice | currency:'DH ' }}</p>
+      <p class="product-quantity" [class.low-stock]="product.quantity <= 5">
+        <span *ngIf="product.quantity > 0" i18n="@@availableQuantity">
+          Available: {{ product.quantity }}
+        </span>
+        <span *ngIf="product.quantity === 0" class="out-of-stock-label" i18n="@@outOfStock">
+          Out of Stock
+        </span>
+      </p>
     </div>
 
-    <button (click)="selectProduct(product)" class="details-button" i18n="@@detailsButton">
-      Details
-    </button>
-    <button (click)="addToCart(product)" class="add-to-cart-btn">
-  Add to Cart
-</button>
+    <div class="product-actions">
+      <button (click)="selectProduct(product)" class="details-button" i18n="@@detailsButton">
+        Details
+      </button>
+      <button (click)="addToCart(product)" 
+              class="add-to-cart-btn"
+              [disabled]="product.quantity === 0"
+              [attr.aria-label]="product.quantity === 0 ? 'Out of stock' : 'Add to cart'">
+        <span *ngIf="product.quantity > 0" i18n="@@addToCartButton">Add to Cart</span>
+        <span *ngIf="product.quantity === 0" i18n="@@outOfStockButton">Out of Stock</span>
+      </button>
+    </div>
   </li>
 </ul>
