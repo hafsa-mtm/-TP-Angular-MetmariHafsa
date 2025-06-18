@@ -18,14 +18,14 @@ export class ProductService {
   getProducts(): Observable<Product[]> {
     return this.http.get<any[]>(`${this.apiUrl}/products`).pipe(
       map(products => products.map(p => new Product(
-        p.productId,
-        p.productTitle,
-        p.productPrice,
-        p.quantity,
-        p.description,
-        p.imageUrl,
-        p.category
-      )))
+      p.productId,
+      p.productTitle,
+      p.productPrice,
+      p.quantity,
+      p.description,
+      p.imageUrl,
+      p.category
+)))
     )
   }
 

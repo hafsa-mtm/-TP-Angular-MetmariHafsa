@@ -16,7 +16,7 @@ import { CartService } from '../app/services/cart.service';
 export class CatalogComponentComponent implements OnInit {
   isLoading = false;
   error: string | null = null;
-  categories: string[] = ['All', 'Screens', 'Laptops', 'Mouse', 'Tablettes'];
+  categories: string[] = ['All', 'Women\'s Watches', 'Men\'s Watches'];
   selectedCategory: string = 'All';
   filteredProducts: Product[] = [];
 
@@ -69,14 +69,15 @@ export class CatalogComponentComponent implements OnInit {
     this.applyFilter();
   }
 
-  applyFilter(): void {
-    const products = this.filteredProducts;
+ applyFilter(): void {
+  this.productService.products$.subscribe(products => {
     if (this.selectedCategory === 'All') {
-      this.filteredProducts = [...products];
+      this.filteredProducts = products;
     } else {
       this.filteredProducts = products.filter(
-        p => p.category && p.category.toLowerCase() === this.selectedCategory.toLowerCase()
+        p => p.category === this.selectedCategory
       );
     }
-  }
+  });
+}
 }

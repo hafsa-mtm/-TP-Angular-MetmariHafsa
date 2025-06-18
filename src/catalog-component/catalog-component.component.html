@@ -8,13 +8,13 @@
     [class.active]="selectedCategory === category">
     <ng-container [ngSwitch]="category">
       <span *ngSwitchCase="'All'" i18n="@@categoryAll">All</span>
-      <span *ngSwitchCase="'Screens'" i18n="@@categoryScreens">Screens</span>
-      <span *ngSwitchCase="'Laptops'" i18n="@@categoryLaptops">Laptops</span>
-      <span *ngSwitchCase="'Mouse'" i18n="@@categoryMouse">Mouse</span>
-      <span *ngSwitchCase="'Tablettes'" i18n="@@categoryTablettes">Tablettes</span>
+      <span *ngSwitchCase="'Men\'s Watches'" i18n="@@categoryMen">Men's Watches</span>
+      <span *ngSwitchCase="'Women\'s Watches'" i18n="@@categoryWomen">Women's Watches</span>
+      <span *ngSwitchDefault>{{ category }}</span>
     </ng-container>
   </button>
 </div>
+
 
 <ul class="product-grid" *ngIf="!isLoading && !error">
   <li *ngFor="let product of filteredProducts"
