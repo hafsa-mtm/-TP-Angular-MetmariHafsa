@@ -56,7 +56,56 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+/* Add to your existing cart.component.css */
+.checkout-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
 
+.checkout-button {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.checkout-button:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.checkout-button:disabled {
+  background-color: var(--beige-dark);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.continue-shopping {
+  display: block;
+  text-align: center;
+  color: var(--primary-dark);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.continue-shopping:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Remove the duplicate continue shopping button */
+.btn-secondary.btn-block {
+  display: none;
+}
 /* Each cart item box */
 .cart-item {
   display: flex;

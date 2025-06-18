@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { Product } from '../../models/Product';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,8 +16,12 @@ import { FormsModule } from '@angular/forms';
 export class CartComponent implements OnInit {
   cartItems: Product[] = [];
   quantities: {[key: number]: number} = {};
+  isLoading = false;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadCart();
@@ -30,29 +34,48 @@ export class CartComponent implements OnInit {
     });
   }
 
-  // cart.component.ts
-updateQuantity(productId: number): void {
-  const newQuantity = this.quantities[productId];
-  if (newQuantity < 1) {
-    this.quantities[productId] = 1; // Reset to minimum 1
-    return;
+  updateQuantity(productId: number): void {
+    const newQuantity = this.quantities[productId];
+    if (newQuantity < 1) {
+      this.quantities[productId] = 1;
+      return;
+    }
+    this.cartService.updateQuantity(productId, newQuantity);
+    this.loadCart();
   }
-  
-  this.cartService.updateQuantity(productId, newQuantity);
-  this.loadCart();
-}
 
-removeItem(productId: number): void {
-  this.cartService.removeFromCart(productId);
-  this.loadCart();
-}
+  removeItem(productId: number): void {
+    this.cartService.removeFromCart(productId);
+    this.loadCart();
+  }
 
   getTotal(): number {
     return this.cartService.getTotal();
   }
 
-  checkout(): void {
-    // In a real app, this would navigate to checkout
-    alert('Proceeding to checkout!');
+  async checkout(): Promise<void> {
+    if (this.cartItems.length === 0) {
+      alert('Your cart is empty!');
+      return;
+    }
+
+    this.isLoading = true;
+    
+    try {
+      // In a real app, you would call a checkout API here
+      // For now, we'll just simulate the process
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      
+      // Navigate to checkout page
+      this.router.navigate(['/checkout']);
+      
+      // Clear cart after successful checkout (you might want to do this after payment confirmation)
+      // this.cartService.clearCart();
+    } catch (error) {
+      console.error('Checkout failed:', error);
+      alert('Checkout failed. Please try again.');
+    } finally {
+      this.isLoading = false;
+    }
   }
 }

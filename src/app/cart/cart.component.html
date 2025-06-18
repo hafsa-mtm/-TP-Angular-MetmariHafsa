@@ -45,9 +45,16 @@
           <span>Total</span>
           <span>{{ getTotal() | currency }}</span>
         </div>
-        <button (click)="checkout()" class="btn-primary btn-block">
-          Proceed to Checkout
-        </button>
+        <div class="checkout-actions">
+  <button 
+    (click)="checkout()" 
+    [disabled]="cartItems.length === 0 || isLoading"
+    class="checkout-button">
+    <span *ngIf="!isLoading">Proceed to Checkout</span>
+    <span *ngIf="isLoading">Processing...</span>
+  </button>
+  <a routerLink="/products" class="continue-shopping">Continue Shopping</a>
+</div>
         <button routerLink="/" class="btn-secondary btn-block">
           Continue Shopping
         </button>

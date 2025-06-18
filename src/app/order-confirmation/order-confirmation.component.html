@@ -1,0 +1,43 @@
+<!-- order-confirmation.component.html -->
+<div class="dashboard-container">
+  <div class="confirmation-card">
+    <div class="confirmation-header">
+      <svg class="confirmation-icon" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" />
+      </svg>
+      <h2>Order Confirmed!</h2>
+      <p>Thank you for your purchase</p>
+    </div>
+
+    <div class="order-card">
+      <div class="order-header">
+        <div class="order-id">Order #{{ orderNumber }}</div>
+        <div class="order-date">{{ order.orderDate | date }}</div>
+        <div class="order-status status-processing">
+          Processing
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <div *ngFor="let item of order.items" class="order-item">
+          <div class="item-name">{{ item.productTitle }}</div>
+          <div class="item-quantity">Qty: {{ item.quantity }}</div>
+          <div class="item-price">{{ item.productPrice | currency }}</div>
+        </div>
+      </div>
+      
+      <div class="order-footer">
+        <div class="order-total">
+          <strong>Total: {{ order.total | currency }}</strong>
+        </div>
+        <button routerLink="/orders" class="btn-secondary">View All Orders</button>
+      </div>
+    </div>
+
+    <div class="confirmation-actions">
+      <button routerLink="/products" class="btn-primary">
+        Continue Shopping
+      </button>
+    </div>
+  </div>
+</div>

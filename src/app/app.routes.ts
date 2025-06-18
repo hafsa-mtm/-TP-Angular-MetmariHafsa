@@ -12,6 +12,9 @@ import { AdminProductsComponent } from './admin/admin-products/admin-products.co
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { AdminOrdersComponent } from './admin/admin-orders/admin-orders.component';
 import { AdminProfileComponent } from './admin/admin-profile/admin-profile.component';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
+
 
 export const routes: Routes = [
   { 
@@ -38,6 +41,16 @@ export const routes: Routes = [
     path: 'cart', 
     component: CartComponent,
     title: 'Your Shopping Cart'
+  },
+   { 
+    path: 'checkout', 
+    component: CheckoutComponent,
+    title: 'Checkout'
+  },
+  { 
+    path: 'order-confirmation', 
+    component: OrderConfirmationComponent,
+    title: 'Order Confirmation'
   },
   // User account routes
   { 

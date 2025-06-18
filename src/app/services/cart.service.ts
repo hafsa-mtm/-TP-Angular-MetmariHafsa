@@ -7,6 +7,7 @@ import { ProductService } from '../../services/product.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class CartService {
   private readonly isBrowser: boolean;
 
@@ -24,7 +25,11 @@ export class CartService {
     const user = this.authService.getCurrentUser();
     return user ? `cart_${user.getEmail()}` : 'cart_guest';
   }
-
+  // Add this method to get cart item count
+  getItemCount(): number {
+    return this.getCartItems().reduce((count, item) => count + item.quantity, 0);
+  }
+  
   private loadCart(): Product[] {
     if (!this.isBrowser) return [];
     
@@ -110,4 +115,12 @@ export class CartService {
       console.error('Error saving cart to localStorage', e);
     }
   }
+   // Add this method to prepare checkout data
+  prepareCheckoutData(): any {
+    return {
+      items: this.getCartItems(),
+      total: this.getTotal(),
+      itemCount: this.getItemCount(),
+      timestamp: new Date().toISOString()
+    }}
 }

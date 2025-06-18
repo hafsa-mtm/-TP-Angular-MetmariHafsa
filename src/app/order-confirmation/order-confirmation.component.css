@@ -1,0 +1,44 @@
+.confirmation-card {
+  background: var(--beige-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.confirmation-header {
+  margin-bottom: 2rem;
+}
+
+.confirmation-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.confirmation-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Reuse your existing order card styles */
+.order-card {
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
