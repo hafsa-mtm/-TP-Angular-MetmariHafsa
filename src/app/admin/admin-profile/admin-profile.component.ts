@@ -1,8 +1,9 @@
 // admin-profile.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { User } from '../../../models/User';
 
 @Component({
   selector: 'app-admin-profile',
@@ -11,33 +12,102 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './admin-profile.component.html',
   styleUrls: ['./admin-profile.component.css']
 })
-export class AdminProfileComponent {
+export class AdminProfileComponent implements OnInit {
+  currentUser: User | null = null;
   profile = {
-    name: 'Admin User',
-    email: 'admin@admin.com',
+    firstName: '',
+    lastName: '',
+    email: '',
     currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   };
+  errorMessage = '';
+  successMessage = '';
 
   constructor(private authService: AuthService) {}
 
+  ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
+    if (this.currentUser) {
+      this.profile = {
+        firstName: this.currentUser.getFirstName(),
+        lastName: this.currentUser.getLastName(),
+        email: this.currentUser.getEmail(),
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      };
+    }
+  }
+
   updateProfile() {
-    // In a real app, you would call a service here
-    console.log('Profile updated:', this.profile);
-    alert('Profile updated successfully!');
+    if (!this.currentUser) return;
+
+    // Update local user data
+    this.currentUser.setFirstName(this.profile.firstName);
+    this.currentUser.setLastName(this.profile.lastName);
+    this.currentUser.setEmail(this.profile.email);
+
+    // Update in localStorage
+    this.authService.setCurrentUser(this.currentUser);
+
+    // Update in users list
+    const users = this.authService.getStoredUsers();
+    const userIndex = users.findIndex(u => u.userId === this.currentUser?.getUserId());
+    
+    if (userIndex !== -1) {
+      users[userIndex] = {
+        ...users[userIndex],
+        firstName: this.profile.firstName,
+        lastName: this.profile.lastName,
+        email: this.profile.email
+      };
+      this.authService.saveUsers(users);
+    }
+
+    this.successMessage = 'Profile updated successfully!';
+    setTimeout(() => this.successMessage = '', 3000);
   }
 
   changePassword() {
+    if (!this.currentUser) return;
+
+    // Validate
     if (this.profile.newPassword !== this.profile.confirmPassword) {
-      alert('New passwords do not match!');
+      this.errorMessage = 'New passwords do not match!';
+      setTimeout(() => this.errorMessage = '', 3000);
       return;
     }
-    // In a real app, you would call a service here
-    console.log('Password changed');
-    alert('Password changed successfully!');
+
+    if (this.profile.newPassword.length < 6) {
+      this.errorMessage = 'Password must be at least 6 characters';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    // Verify current password
+    const users = this.authService.getStoredUsers();
+    const userData = users.find(u => u.userId === this.currentUser?.getUserId());
+
+    if (!userData || userData.password !== this.profile.currentPassword) {
+      this.errorMessage = 'Current password is incorrect';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    // Update password
+    userData.password = this.profile.newPassword;
+    this.currentUser.setPassword(this.profile.newPassword);
+    this.authService.saveUsers(users);
+    this.authService.setCurrentUser(this.currentUser);
+
+    // Reset form
     this.profile.currentPassword = '';
     this.profile.newPassword = '';
     this.profile.confirmPassword = '';
+
+    this.successMessage = 'Password changed successfully!';
+    setTimeout(() => this.successMessage = '', 3000);
   }
 }
