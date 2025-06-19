@@ -78,6 +78,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
+  
   // Wildcard route (must be last)
   { 
     path: '**', 

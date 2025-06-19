@@ -42,9 +42,11 @@ export class OrderConfirmationComponent {
       total: this.order.total,
       status: 'Processing',
       items: this.order.items.map((item: any) => ({
+        productId: item.productId,
         name: item.productTitle,
         quantity: item.quantity,
         price: item.productPrice,
+        status: 'Processing',
         imageUrl: item.imageUrl
       })),
       customer: {
@@ -58,7 +60,7 @@ export class OrderConfirmationComponent {
         country: this.order.country
       }
     };
-    
+    console.log('Saving order:', newOrder);
     this.ordersService.addOrder(newOrder);
   }
 }

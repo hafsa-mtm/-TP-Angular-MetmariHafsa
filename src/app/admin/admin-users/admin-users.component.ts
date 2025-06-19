@@ -1,17 +1,10 @@
 // admin-users.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  type: 'Admin' | 'Member';
-  createdAt?: Date;
-}
+import { User, UserType } from '../../../models/User';
 
 @Component({
   selector: 'app-admin-users',
@@ -20,49 +13,116 @@ interface User {
   templateUrl: './admin-users.component.html',
   styleUrls: ['./admin-users.component.css']
 })
-export class AdminUsersComponent {
-  users: User[] = [
-    { id: 1, name: 'Admin User', email: 'admin@admin.com', type: 'Admin', createdAt: new Date('2023-01-01') },
-    { id: 2, name: 'John Doe', email: 'john@example.com', type: 'Member', createdAt: new Date('2023-02-15') }
-  ];
-
-  newUser: User = {
-    id: 0,
-    name: '',
+export class AdminUsersComponent implements OnInit {
+  users: User[] = [];
+  UserType = UserType; 
+  filteredUsers: User[] = [];
+  searchQuery: string = '';
+  
+  newUser = {
+    firstName: '',
+    lastName: '',
     email: '',
-    type: 'Member'
+    password: '',
+    userType: UserType.Member
   };
 
   constructor(private authService: AuthService) {}
 
-  addUser() {
-    this.newUser.id = this.users.length > 0 
-      ? Math.max(...this.users.map(u => u.id)) + 1 
-      : 1;
-    this.users.push({...this.newUser, createdAt: new Date()});
-    this.resetForm();
+  ngOnInit(): void {
+    this.loadUsers();
   }
 
-  promoteUser(user: User) {
-    user.type = 'Admin';
-    // In a real app, you would call a service here
+  private loadUsers(): void {
+    const storedUsers = this.authService.getStoredUsers();
+    this.users = storedUsers.map((userData: any) => 
+      this.authService.getUserById(userData.userId) || 
+      new User(
+        userData.userId,
+        userData.firstName,
+        userData.lastName,
+        userData.age || 0,
+        userData.email,
+        '',
+        userData.userType
+      )
+    );
+    this.filteredUsers = [...this.users];
   }
 
-  demoteUser(user: User) {
-    user.type = 'Member';
-    // In a real app, you would call a service here
+  addUser(): void {
+    if (!this.validateUser()) return;
+
+    const success = this.authService.register({
+      firstName: this.newUser.firstName,
+      lastName: this.newUser.lastName,
+      email: this.newUser.email,
+      password: this.newUser.password
+    }, this.newUser.userType === UserType.Admin);
+
+    if (success) {
+      this.loadUsers();
+      this.resetForm();
+    }
   }
 
-  deleteUser(id: number) {
-    this.users = this.users.filter(u => u.id !== id);
+  updateUserType(user: User, newType: UserType): void {
+    const users = this.authService.getStoredUsers();
+    const index = users.findIndex(u => u.userId === user.getUserId());
+    
+    if (index !== -1) {
+      users[index].userType = newType;
+      this.authService.saveUsers(users);
+      user.setUserType(newType); // Update the local instance
+    }
   }
 
-  resetForm() {
+  deleteUser(userId: number): void {
+    if (confirm('Are you sure you want to delete this user?')) {
+      const users = this.authService.getStoredUsers();
+      const updatedUsers = users.filter(u => u.userId !== userId);
+      this.authService.saveUsers(updatedUsers);
+      this.loadUsers();
+    }
+  }
+
+  private validateUser(): boolean {
+    if (!this.newUser.firstName || !this.newUser.lastName) {
+      alert('Please enter both first and last name');
+      return false;
+    }
+    if (!this.newUser.email.includes('@')) {
+      alert('Please enter a valid email');
+      return false;
+    }
+    if (this.newUser.password.length < 6) {
+      alert('Password must be at least 6 characters');
+      return false;
+    }
+    return true;
+  }
+
+  private resetForm(): void {
     this.newUser = {
-      id: 0,
-      name: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      type: 'Member'
+      password: '',
+      userType: UserType.Member
     };
+  }
+
+  onSearchChange(): void {
+    if (!this.searchQuery) {
+      this.filteredUsers = [...this.users];
+      return;
+    }
+    
+    const query = this.searchQuery.toLowerCase();
+    this.filteredUsers = this.users.filter(user => 
+      user.getFirstName().toLowerCase().includes(query) ||
+      user.getLastName().toLowerCase().includes(query) ||
+      user.getEmail().toLowerCase().includes(query)
+    );
   }
 }

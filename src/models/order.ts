@@ -1,25 +1,32 @@
-// src/app/models/order.ts
 export interface OrderItem {
+  productId: number;
   name: string;
   quantity: number;
   price: number;
-  imageUrl?: string;
+  status: OrderStatus;
+  imageUrl: string;
 }
+
+export interface Customer {
+  name: string;
+  email: string;
+}
+
+export interface ShippingAddress {
+  address: string;
+  city: string;
+  zipCode: string;
+  country: string;
+}
+
+export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
 
 export interface Order {
   id: string;
   date: string;
   total: number;
-  status: 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+  status: OrderStatus;
   items: OrderItem[];
-  customer?: {
-    name?: string;
-    email?: string;
-  };
-  shippingAddress?: {
-    address?: string;
-    city?: string;
-    zipCode?: string;
-    country?: string;
-  };
+  customer: Customer;
+  shippingAddress: ShippingAddress;
 }

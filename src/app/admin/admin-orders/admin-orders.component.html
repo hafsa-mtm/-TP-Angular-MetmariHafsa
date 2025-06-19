@@ -4,24 +4,28 @@
   <div class="order-filters">
     <div class="filter-group">
       <label for="status-filter">Filter by Status:</label>
-      <select id="status-filter">
+      <select id="status-filter" [(ngModel)]="selectedStatus" (change)="onStatusFilterChange()">
         <option value="all">All Orders</option>
         <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
       </select>
     </div>
+    
+    <div class="filter-group">
+      <label for="search">Search:</label>
+      <input id="search" type="text" [(ngModel)]="searchQuery" 
+             (input)="onSearchChange()" placeholder="Order ID, Customer Name/Email">
+    </div>
+  </div>
+  
+  <div *ngIf="filteredOrders.length === 0" class="no-orders">
+    No orders found matching your criteria.
   </div>
   
   <div class="order-list">
-    <div *ngFor="let order of orders" class="order-card">
+    <div *ngFor="let order of filteredOrders" class="order-card">
       <div class="order-header">
         <div class="order-id">Order #{{ order.id }}</div>
-        <div class="order-status" [ngClass]="{
-          'status-pending': order.status === 'Pending',
-          'status-processing': order.status === 'Processing',
-          'status-shipped': order.status === 'Shipped',
-          'status-delivered': order.status === 'Delivered',
-          'status-cancelled': order.status === 'Cancelled'
-        }">
+        <div class="order-status" [ngClass]="getStatusClass(order.status)">
           {{ order.status }}
         </div>
       </div>
@@ -29,8 +33,15 @@
       <div class="order-details">
         <div class="customer-info">
           <h4>Customer</h4>
-          <p>{{ order.userName }}</p>
-          <p>User ID: {{ order.userId }}</p>
+          <p>{{ order.customer.name }}</p>
+          <p>{{ order.customer.email }}</p>
+        </div>
+        
+        <div class="shipping-info">
+          <h4>Shipping Address</h4>
+          <p>{{ order.shippingAddress.address }}</p>
+          <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.zipCode }}</p>
+          <p>{{ order.shippingAddress.country }}</p>
         </div>
         
         <div class="order-items">
@@ -38,18 +49,23 @@
           <table>
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Subtotal</th>
+                <th class="product-column">Product</th>
+                <th class="quantity-column">Quantity</th>
+                <th class="price-column">Price</th>
+                <th class="subtotal-column">Subtotal</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of order.items">
-                <td>{{ item.name }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>{{ item.price | currency }}</td>
-                <td>{{ item.price * item.quantity | currency }}</td>
+                <td class="product-column">
+                  <div class="product-info">
+                    <img [src]="item.imageUrl" alt="{{ item.name }}" class="product-image" *ngIf="item.imageUrl">
+                    <span class="product-name">{{ item.name }}</span>
+                  </div>
+                </td>
+                <td class="quantity-column">{{ item.quantity }}</td>
+                <td class="price-column">{{ item.price | currency }}</td>
+                <td class="subtotal-column">{{ (item.price * item.quantity) | currency }}</td>
               </tr>
             </tbody>
           </table>
@@ -62,15 +78,12 @@
         </div>
         
         <div class="order-dates">
-          <p>Created: {{ order.createdAt | date }}</p>
-          <p *ngIf="order.updatedAt.getTime() !== order.createdAt.getTime()">
-            Updated: {{ order.updatedAt | date }}
-          </p>
+          <p>Order Date: {{ order.date | date:'MMM d, y, h:mm a' }}</p>
         </div>
         
         <div class="order-actions">
-          <label for="status-{{order.id}}">Update Status:</label>
-          <select id="status-{{order.id}}" 
+          <label [attr.for]="'status-'+order.id">Update Status:</label>
+          <select [id]="'status-'+order.id"
                   [(ngModel)]="order.status"
                   (change)="onStatusChange(order, $event)">
             <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>

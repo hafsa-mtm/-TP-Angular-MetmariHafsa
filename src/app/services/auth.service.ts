@@ -42,8 +42,7 @@ export class AuthService {
     }
   }
 
- // auth.service.ts
-register(userData: any, isAdmin: boolean = false): boolean {
+  register(userData: any, isAdmin: boolean = false): boolean {
     if (!this.isBrowser) return false;
 
     const users = this.getStoredUsers();
@@ -56,17 +55,27 @@ register(userData: any, isAdmin: boolean = false): boolean {
       Date.now(),
       userData.firstName,
       userData.lastName,
-      userData.age,
+      userData.age || 0,
       userData.email,
       userData.password,
-      isAdmin ? UserType.Admin : UserType.Member // Set type based on flag
+      isAdmin ? UserType.Admin : UserType.Member
     );
 
-    users.push(newUser);
+    users.push({
+      userId: newUser.getUserId(),
+      firstName: newUser.getFirstName(),
+      lastName: newUser.getLastName(),
+      age: newUser.getAge(),
+      email: newUser.getEmail(),
+      password: newUser.getPassword(),
+      userType: newUser.getUserType()
+    });
+    
     this.saveUsers(users);
     this.setCurrentUser(newUser);
     return true;
-}
+  }
+
   login(email: string, password: string): boolean {
     if (!this.isBrowser) return false;
 
@@ -127,7 +136,8 @@ register(userData: any, isAdmin: boolean = false): boolean {
     return this.currentUser?.getEmail() || null;
   }
 
-  private getStoredUsers(): any[] {
+  // Changed from private to public to allow admin user management
+  public getStoredUsers(): any[] {
     if (!this.isBrowser) return [];
 
     try {
@@ -138,9 +148,31 @@ register(userData: any, isAdmin: boolean = false): boolean {
     }
   }
 
-  private saveUsers(users: any[]): void {
+  // Changed from private to public to allow admin user management
+  public saveUsers(users: any[]): void {
     if (this.isBrowser) {
       localStorage.setItem('users', JSON.stringify(users));
     }
+  }
+
+  // New public method to get user by ID
+  public getUserById(userId: number): User | null {
+    const userData = this.getStoredUsers().find(u => u.userId === userId);
+    if (!userData) return null;
+    
+    return new User(
+      userData.userId,
+      userData.firstName,
+      userData.lastName,
+      userData.age,
+      userData.email,
+      '', // Don't expose password
+      userData.userType
+    );
+  }
+
+  // New public method to check if current user is admin
+  public isAdmin(): boolean {
+    return this.currentUser?.getUserType() === UserType.Admin;
   }
 }
