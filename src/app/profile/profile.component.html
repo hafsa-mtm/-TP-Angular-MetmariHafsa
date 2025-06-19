@@ -2,6 +2,14 @@
 <div class="dashboard-container">
   <h2>My Profile</h2>
   
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+  
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+
   <div class="profile-card">
     <div class="profile-header">
       <h3>Personal Information</h3>
@@ -56,7 +64,7 @@
     
     <div class="form-group">
       <label>New Password</label>
-      <input type="password" [(ngModel)]="passwordData.newPassword">
+      <input type="password" [(ngModel)]="passwordData.newPassword" minlength="6">
     </div>
     
     <div class="form-group">

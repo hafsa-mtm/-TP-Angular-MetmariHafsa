@@ -1,9 +1,10 @@
 // profile.component.ts
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { User } from '../../models/User';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,8 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+  currentUser: User | null = null;
   userData = {
     firstName: '',
     lastName: '',
@@ -28,36 +30,94 @@ export class ProfileComponent {
   };
   
   isEditing = false;
+  errorMessage = '';
+  successMessage = '';
 
-  constructor(public authService: AuthService) {
-    if (authService.getCurrentUser()) {
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.currentUser = this.authService.getCurrentUser();
+    if (this.currentUser) {
       this.userData = {
-        firstName: authService.getCurrentUser()?.getFirstName() || '',
-        lastName: authService.getCurrentUser()?.getLastName() || '',
-        email: authService.getCurrentUser()?.getEmail() || '',
-        phone: '',
-        address: ''
+        firstName: this.currentUser.getFirstName(),
+        lastName: this.currentUser.getLastName(),
+        email: this.currentUser.getEmail(),
+        phone: '', // Add phone to your User model if needed
+        address: '' // Add address to your User model if needed
       };
     }
   }
 
   updateProfile(): void {
-    // In a real app, you would call a service here
-    alert('Profile updated successfully!');
+    if (!this.currentUser) return;
+
+    // Update local user data
+    this.currentUser.setFirstName(this.userData.firstName);
+    this.currentUser.setLastName(this.userData.lastName);
+    // Note: Email shouldn't be changed directly as it's often used as identifier
+
+    // Update in localStorage
+    this.authService.setCurrentUser(this.currentUser);
+
+    // Update in users list
+    const users = this.authService.getStoredUsers();
+    const userIndex = users.findIndex(u => u.userId === this.currentUser?.getUserId());
+    
+    if (userIndex !== -1) {
+      users[userIndex] = {
+        ...users[userIndex],
+        firstName: this.userData.firstName,
+        lastName: this.userData.lastName,
+        // Add phone and address if you've added them to your User model
+      };
+      this.authService.saveUsers(users);
+    }
+
+    this.successMessage = 'Profile updated successfully!';
     this.isEditing = false;
+    setTimeout(() => this.successMessage = '', 3000);
   }
 
   changePassword(): void {
+    if (!this.currentUser) return;
+
+    // Validate
     if (this.passwordData.newPassword !== this.passwordData.confirmPassword) {
-      alert('New passwords do not match!');
+      this.errorMessage = 'New passwords do not match!';
+      setTimeout(() => this.errorMessage = '', 3000);
       return;
     }
-    // In a real app, you would call a service here
-    alert('Password changed successfully!');
+
+    if (this.passwordData.newPassword.length < 6) {
+      this.errorMessage = 'Password must be at least 6 characters';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    // Verify current password
+    const users = this.authService.getStoredUsers();
+    const userData = users.find(u => u.userId === this.currentUser?.getUserId());
+
+    if (!userData || userData.password !== this.passwordData.currentPassword) {
+      this.errorMessage = 'Current password is incorrect';
+      setTimeout(() => this.errorMessage = '', 3000);
+      return;
+    }
+
+    // Update password
+    userData.password = this.passwordData.newPassword;
+    this.currentUser.setPassword(this.passwordData.newPassword);
+    this.authService.saveUsers(users);
+    this.authService.setCurrentUser(this.currentUser);
+
+    // Reset form
     this.passwordData = {
       currentPassword: '',
       newPassword: '',
       confirmPassword: ''
     };
+
+    this.successMessage = 'Password changed successfully!';
+    setTimeout(() => this.successMessage = '', 3000);
   }
 }
