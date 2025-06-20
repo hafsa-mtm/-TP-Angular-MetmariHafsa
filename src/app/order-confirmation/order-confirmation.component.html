@@ -9,10 +9,10 @@
       <p>Thank you for your purchase</p>
     </div>
 
-    <div class="order-card">
+    <div *ngIf="order" class="order-card">
       <div class="order-header">
         <div class="order-id">Order #{{ orderNumber }}</div>
-        <div class="order-date">{{ order.orderDate | date }}</div>
+        <div class="order-date">{{ order.date | date }}</div>
         <div class="order-status status-processing">
           Processing
         </div>
@@ -20,9 +20,9 @@
       
       <div class="order-items">
         <div *ngFor="let item of order.items" class="order-item">
-          <div class="item-name">{{ item.productTitle }}</div>
+          <div class="item-name">{{ item.name }}</div>
           <div class="item-quantity">Qty: {{ item.quantity }}</div>
-          <div class="item-price">{{ item.productPrice | currency }}</div>
+          <div class="item-price">{{ item.price | currency }}</div>
         </div>
       </div>
       

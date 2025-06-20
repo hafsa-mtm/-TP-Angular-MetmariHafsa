@@ -1,29 +1,59 @@
-<!-- orders.component.html -->
 <div class="dashboard-container">
-  <h2>My Orders</h2>
-  
-  <div *ngIf="orders.length === 0" class="empty-state">
+  <div class="orders-header">
+    <h2>My Orders</h2>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading your orders...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && errorMessage" class="error-state">
+    <span class="icon">⚠️</span>
+    <h3>Something went wrong</h3>
+    <p>{{ errorMessage }}</p>
+    <button (click)="refreshOrders()" class="btn-primary">Try Again</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && !errorMessage && orders.length === 0" class="empty-state">
     <span class="icon">📋</span>
     <h3>No orders yet</h3>
     <p>Your order history will appear here</p>
     <button routerLink="/" class="btn-primary">Start Shopping</button>
   </div>
 
-  <div *ngIf="orders.length > 0" class="orders-list">
+  <!-- Orders List -->
+  <div *ngIf="!isLoading && !errorMessage && orders.length > 0" class="orders-list">
     <div *ngFor="let order of orders" class="order-card">
       <div class="order-header">
         <div class="order-id">Order #{{ order.id }}</div>
-        <div class="order-date">{{ order.date | date }}</div>
+        <div class="order-date">{{ order.date | date:'mediumDate' }}</div>
         <div class="order-status" [ngClass]="getStatusClass(order.status)">
           {{ order.status }}
         </div>
       </div>
       
+      <div class="shipping-info">
+        <h4>Shipping to:</h4>
+        <p>{{ order.shippingAddress.address }}</p>
+        <p>{{ order.shippingAddress.city }}, {{ order.shippingAddress.zipCode }}</p>
+        <p>{{ order.shippingAddress.country }}</p>
+      </div>
+      
       <div class="order-items">
         <div *ngFor="let item of order.items" class="order-item">
-          <div class="item-name">{{ item.name }}</div>
-          <div class="item-quantity">Qty: {{ item.quantity }}</div>
-          <div class="item-price">{{ item.price | currency }}</div>
+          <img [src]="item.imageUrl" [alt]="item.name" class="item-image">
+          <div class="item-info">
+            <div class="item-name">{{ item.name }}</div>
+            <div class="item-meta">
+              <span class="item-quantity">Qty: {{ item.quantity }}</span>
+              <span class="item-price">{{ item.price | currency }}</span>
+            </div>
+            <div class="item-status">Status: {{ item.status }}</div>
+          </div>
         </div>
       </div>
       
@@ -31,7 +61,10 @@
         <div class="order-total">
           <strong>Total: {{ order.total | currency }}</strong>
         </div>
-        <button class="btn-secondary">View Details</button>
+        <div class="order-actions">
+          <button class="btn-secondary">View Details</button>
+          <button class="btn-track" *ngIf="!isDelivered(order.status)">Track Order</button>
+        </div>
       </div>
     </div>
   </div>

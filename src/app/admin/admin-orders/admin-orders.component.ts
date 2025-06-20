@@ -1,3 +1,4 @@
+// admin-orders.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -19,53 +20,30 @@ export class AdminOrdersComponent implements OnInit {
   statusOptions: OrderStatus[] = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
   selectedStatus: string = 'all';
   searchQuery: string = '';
+  isLoading = true;
 
   constructor(
     private ordersService: OrdersService,
     private authService: AuthService
   ) {}
-ngOnInit(): void {
-  this.loadOrders();
-  
-  // TEMPORARY: Add test data if no orders exist
-  if (this.orders.length === 0) {
-    console.warn('No orders found - injecting test data');
-    const testOrder: Order = {
-      id: 'TEST-' + Date.now(),
-      date: new Date().toISOString(),
-      total: 99.99,
-      status: 'Processing',
-      items: [{
-        productId: 1,
-        name: 'Test Watch',
-        quantity: 1,
-        price: 99.99,
-        status: 'Processing',
-        imageUrl: '/assets/test-watch.jpg'
-      }],
-      customer: {
-        name: 'Test User',
-        email: 'test@example.com'
-      },
-      shippingAddress: {
-        address: '123 Test St',
-        city: 'Testville',
-        zipCode: '12345',
-        country: 'Testland'
-      }
-    };
-    this.ordersService.addOrder(testOrder);
-    this.loadOrders(); // Reload
+
+  ngOnInit(): void {
+    this.loadOrders();
   }
-}
- private loadOrders(): void {
-  console.log('Before loading orders');
-  this.orders = this.ordersService.getAllOrders();
-  console.log('Orders after getAllOrders:', this.orders);
-  this.filteredOrders = [...this.orders];
-  console.log('Filtered orders:', this.filteredOrders);
-  this.applyFilters();
-}
+
+  private loadOrders(): void {
+    this.isLoading = true;
+    try {
+      this.orders = this.ordersService.getAllOrders();
+      this.applyFilters();
+    } catch (error) {
+      console.error('Error loading orders:', error);
+      this.orders = [];
+      this.filteredOrders = [];
+    } finally {
+      this.isLoading = false;
+    }
+  }
 
   onStatusFilterChange(): void {
     this.applyFilters();
@@ -88,7 +66,8 @@ ngOnInit(): void {
   }
 
   updateOrderStatus(order: Order, newStatus: OrderStatus): void {
-    if (this.ordersService.updateOrderStatus(order.id, newStatus)) {
+    const updated = this.ordersService.updateOrderStatus(order.id, newStatus);
+    if (updated) {
       order.status = newStatus;
     }
   }
@@ -100,12 +79,6 @@ ngOnInit(): void {
   }
 
   getStatusClass(status: OrderStatus): string {
-    switch(status) {
-      case 'Processing': return 'status-processing';
-      case 'Shipped': return 'status-shipped';
-      case 'Delivered': return 'status-delivered';
-      case 'Cancelled': return 'status-cancelled';
-      default: return '';
-    }
+    return status.toLowerCase();
   }
 }

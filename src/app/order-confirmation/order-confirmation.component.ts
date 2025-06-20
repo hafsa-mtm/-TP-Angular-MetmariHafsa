@@ -2,8 +2,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { OrdersService } from '../../services/ordersService';
-import { Order } from '../../models/order'; // Add this import
+import { OrdersService } from '../services/orders.service';
+import { Order } from '../../models/order';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-order-confirmation',
@@ -13,35 +14,40 @@ import { Order } from '../../models/order'; // Add this import
   styleUrls: ['./order-confirmation.component.css']
 })
 export class OrderConfirmationComponent {
-  order: any;
-  orderNumber: string;
+  order!: Order; 
+  orderNumber!: string;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private ordersService: OrdersService
+    private ordersService: OrdersService,
+    private cartService: CartService
   ) {
-    this.order = this.router.getCurrentNavigation()?.extras.state?.['order'];
-    this.orderNumber = this.generateOrderNumber();
+    const navigation = this.router.getCurrentNavigation();
+    const orderData = navigation?.extras.state?.['order'];
     
-    if (this.order) {
-      this.saveOrder();
-    } else {
+    if (!orderData) {
       this.router.navigate(['/']);
+      return;
     }
+
+    this.orderNumber = this.generateOrderNumber();
+    this.order = this.createOrder(orderData);
+    this.saveOrder();
+    this.cartService.clearCart();
   }
 
   private generateOrderNumber(): string {
     return 'ORD-' + Date.now().toString().slice(-8);
   }
 
-  private saveOrder(): void {
-    const newOrder: Order = {
+  private createOrder(orderData: any): Order {
+    return {
       id: this.orderNumber,
       date: new Date().toISOString(),
-      total: this.order.total,
+      total: orderData.total,
       status: 'Processing',
-      items: this.order.items.map((item: any) => ({
+      items: orderData.items.map((item: any) => ({
         productId: item.productId,
         name: item.productTitle,
         quantity: item.quantity,
@@ -50,17 +56,19 @@ export class OrderConfirmationComponent {
         imageUrl: item.imageUrl
       })),
       customer: {
-        name: `${this.order.firstName} ${this.order.lastName}`,
-        email: this.order.email
+        name: `${orderData.firstName} ${orderData.lastName}`,
+        email: orderData.email
       },
       shippingAddress: {
-        address: this.order.address,
-        city: this.order.city,
-        zipCode: this.order.zipCode,
-        country: this.order.country
+        address: orderData.address,
+        city: orderData.city,
+        zipCode: orderData.zipCode,
+        country: orderData.country
       }
     };
-    console.log('Saving order:', newOrder);
-    this.ordersService.addOrder(newOrder);
+  }
+
+  private saveOrder(): void {
+    this.ordersService.addOrder(this.order);
   }
 }
