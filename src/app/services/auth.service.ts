@@ -42,39 +42,44 @@ export class AuthService {
     }
   }
 
-  register(userData: any, isAdmin: boolean = false): boolean {
-    if (!this.isBrowser) return false;
+ register(userData: any, isAdmin: boolean = false, autoLogin: boolean = false): boolean {
+  if (!this.isBrowser) return false;
 
-    const users = this.getStoredUsers();
-    
-    if (users.some((u: any) => u.email === userData.email)) {
-      return false;
-    }
-
-    const newUser = new User(
-      Date.now(),
-      userData.firstName,
-      userData.lastName,
-      userData.age || 0,
-      userData.email,
-      userData.password,
-      isAdmin ? UserType.Admin : UserType.Member
-    );
-
-    users.push({
-      userId: newUser.getUserId(),
-      firstName: newUser.getFirstName(),
-      lastName: newUser.getLastName(),
-      age: newUser.getAge(),
-      email: newUser.getEmail(),
-      password: newUser.getPassword(),
-      userType: newUser.getUserType()
-    });
-    
-    this.saveUsers(users);
-    this.setCurrentUser(newUser);
-    return true;
+  const users = this.getStoredUsers();
+  
+  if (users.some((u: any) => u.email === userData.email)) {
+    return false;
   }
+
+  const newUser = new User(
+    Date.now(),
+    userData.firstName,
+    userData.lastName,
+    userData.age || 0,
+    userData.email,
+    userData.password,
+    isAdmin ? UserType.Admin : UserType.Member
+  );
+
+  users.push({
+    userId: newUser.getUserId(),
+    firstName: newUser.getFirstName(),
+    lastName: newUser.getLastName(),
+    age: newUser.getAge(),
+    email: newUser.getEmail(),
+    password: newUser.getPassword(),
+    userType: newUser.getUserType()
+  });
+  
+  this.saveUsers(users);
+  
+  // Only set as current user if autoLogin is true
+  if (autoLogin) {
+    this.setCurrentUser(newUser);
+  }
+  
+  return true;
+}
 
   login(email: string, password: string): boolean {
     if (!this.isBrowser) return false;

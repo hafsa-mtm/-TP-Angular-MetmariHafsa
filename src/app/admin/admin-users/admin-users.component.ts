@@ -50,21 +50,21 @@ export class AdminUsersComponent implements OnInit {
     this.filteredUsers = [...this.users];
   }
 
-  addUser(): void {
-    if (!this.validateUser()) return;
+ addUser(): void {
+  if (!this.validateUser()) return;
 
-    const success = this.authService.register({
-      firstName: this.newUser.firstName,
-      lastName: this.newUser.lastName,
-      email: this.newUser.email,
-      password: this.newUser.password
-    }, this.newUser.userType === UserType.Admin);
+  const success = this.authService.register({
+    firstName: this.newUser.firstName,
+    lastName: this.newUser.lastName,
+    email: this.newUser.email,
+    password: this.newUser.password
+  }, this.newUser.userType === UserType.Admin, false); // <-- Added false here
 
-    if (success) {
-      this.loadUsers();
-      this.resetForm();
-    }
+  if (success) {
+    this.loadUsers();
+    this.resetForm();
   }
+}
 
   updateUserType(user: User, newType: UserType): void {
     const users = this.authService.getStoredUsers();
