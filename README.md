@@ -106,6 +106,60 @@ Add, edit, or remove luxury watches.
 
 ![image](https://github.com/user-attachments/assets/12e8d397-6759-497f-8c5a-959d3010aa8c)
 
+### Internationalisation(i18n)
+
+``` bash
+build --configuration=fr
+```
+#### Login & Signup
+
+![image](https://github.com/user-attachments/assets/459d8497-290b-4be2-a399-93fb4a758480)
+
+#### Catalog
+
+![image](https://github.com/user-attachments/assets/e2d083b4-ec70-4e53-bd75-cba9971b7875)
+
+#### Product Details
+
+![image](https://github.com/user-attachments/assets/baf1c1f2-f522-4984-944f-f14a6c73c4c3)
+
+#### Cart
+
+![image](https://github.com/user-attachments/assets/8e6cf218-d9e0-4eac-b4df-af29807d1fdb)
+
+#### Checkout & Order Confirmation
+
+![image](https://github.com/user-attachments/assets/429bb827-6bb2-4798-a509-b52d248ffdab)
+
+![image](https://github.com/user-attachments/assets/c0852ebd-10ef-4cdb-8ce2-14901f1779c2)
+
+#### Orders
+
+![image](https://github.com/user-attachments/assets/f391c1dc-1060-4274-848e-5f8608fe4ec2)
+
+#### Profile
+
+![image](https://github.com/user-attachments/assets/f637cb1b-e36b-45ef-8e21-d511c3010c59)
+
+#### Admin Dashboard
+
+![image](https://github.com/user-attachments/assets/54c80f4e-f61e-4399-a22a-2b0ad181215f)
+
+#### Admin Products
+
+![image](https://github.com/user-attachments/assets/66a29116-f1c4-482b-a7e6-5eca2172e67a)
+
+#### Users
+
+![image](https://github.com/user-attachments/assets/76fec2a9-b224-43da-ac7f-a04ef88d6382)
+
+#### Orders
+
+![image](https://github.com/user-attachments/assets/a7a1061a-6161-484d-a35d-9522f40ef731)
+
+#### profile
+![image](https://github.com/user-attachments/assets/ff7a44ce-ebd5-4f70-94a5-48fdd61f6edc)
+
 ## Technologies Used
 ### Frontend: Angular, TypeScript, HTML/CSS
 Backend:API 
